@@ -12,19 +12,14 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
 
 public class ProductOptionsController {
     @FXML
     private ComboBox<String> categoryBox;
     @FXML
     private ComboBox<String> manufacturerBox;
-    @FXML
-    private ComboBox<String> modelBox;
-    private List<Equipment> equipmentList;
+
     public void initialize() {
-
-
         ObservableList<String> categoryList = FXCollections.observableArrayList(
                 "Terminal",
                 "Printer",
@@ -37,9 +32,28 @@ public class ProductOptionsController {
                 "Toshiba",
                 "OEM"
         );
-
         categoryBox.getItems().setAll(categoryList);
         manufacturerBox.getItems().setAll(manufacturerList);
+    }
+
+    public void onBoxSelect() {
+
+        if (!categoryBox.getSelectionModel().isEmpty()) {
+            String selectedCategory = categoryBox.getValue();
+        }
+        if (!manufacturerBox.getSelectionModel().isEmpty()) {
+            String selectedManufacturer = manufacturerBox.getValue();
+        }
+
+
+    }
+
+    public void onSearchButtonClick() {
+
+        if (categoryBox.getValue() == "Terminal") {
+
+        }
+
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {

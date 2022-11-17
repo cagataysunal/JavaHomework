@@ -5,4 +5,6 @@ module com.example.javahomework {
 
     opens com.example.javahomework to javafx.fxml;
     exports com.example.javahomework;
+    exports com.example.javahomework.equipment;
+    opens com.example.javahomework.equipment to javafx.fxml;
 }
