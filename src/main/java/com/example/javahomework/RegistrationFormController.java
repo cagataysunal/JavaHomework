@@ -32,7 +32,12 @@ public class RegistrationFormController {
 
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) throws IOException {
+
         Window owner = submitButton.getScene().getWindow();
+
+        // Validation is commented out for debug purposes.
+
+        /*
         if (nameField.getText().isEmpty()) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
                     "Please enter your name");
@@ -48,7 +53,7 @@ public class RegistrationFormController {
                     "Please enter a password");
             return;
         }
-
+        */
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, owner, "Registration Successful!",
                 "Welcome " + nameField.getText());
 
