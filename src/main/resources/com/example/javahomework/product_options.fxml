@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -11,41 +12,43 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.javahomework.ProductOptionsController">
-    <children>
-        <GridPane alignment="CENTER" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                  minWidth="-Infinity" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0"/>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="30.0" prefHeight="45.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="45.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="45.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="45.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="45.0"/>
-                <RowConstraints minHeight="30.0" prefHeight="45.0"/>
-            </rowConstraints>
-            <children>
-                <Label text="Equipment ID" GridPane.columnIndex="1"/>
-                <Label text="Description" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                <Label text="Category" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                <Label text="Manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                <Label text="Model" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-                <Label text="Tax" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                <TextField GridPane.columnIndex="2"/>
-                <TextField GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                <ComboBox fx:id="categoryBox" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2"
-                          promptText="Select"/>
-                <ComboBox fx:id="manufacturerBox" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3"
-                          promptText="Select"/>
-                <ComboBox fx:id="modelBox" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4"
-                          promptText="Select"/>
-                <TextField GridPane.columnIndex="2" GridPane.rowIndex="5"/>
-                <Button fx:id="backButton" mnemonicParsing="false" onAction="#switchToMenu" text="&lt;"/>
-            </children>
-        </GridPane>
-    </children>
+    <GridPane alignment="CENTER" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+              minWidth="-Infinity" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="30.0" prefHeight="45.0"/>
+            <RowConstraints minHeight="30.0" prefHeight="45.0"/>
+            <RowConstraints minHeight="30.0" prefHeight="45.0"/>
+            <RowConstraints minHeight="30.0" prefHeight="45.0"/>
+            <RowConstraints minHeight="30.0" prefHeight="45.0"/>
+            <RowConstraints minHeight="30.0" prefHeight="45.0"/>
+        </rowConstraints>
+        <Label text="Equipment ID" GridPane.columnIndex="1"/>
+        <Label text="Description" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="Category" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="Manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label text="Model" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <Label text="Tax" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+        <TextField GridPane.columnIndex="2"/>
+        <TextField GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <ComboBox fx:id="categoryBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
+                  GridPane.rowIndex="2" onAction="#onBoxSelect"/>
+        <ComboBox fx:id="manufacturerBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
+                  GridPane.rowIndex="3" onAction="#onBoxSelect"/>
+        <ComboBox fx:id="modelBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
+                  GridPane.rowIndex="4"/>
+        <TextField GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+        <Button mnemonicParsing="false" onAction="#switchToMenu" text="&lt;"/>
+        <Button alignment="CENTER" mnemonicParsing="false" text="Search" GridPane.columnIndex="3"
+                GridPane.halignment="CENTER" GridPane.rowIndex="4" onAction="#onSearchButtonClick">
+            <GridPane.margin>
+                <Insets right="30.0"/>
+            </GridPane.margin>
+        </Button>
+    </GridPane>
 </AnchorPane>
