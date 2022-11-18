@@ -57,19 +57,16 @@ public class ProductOptionsController {
         if (!categoryBox.getSelectionModel().isEmpty() && !manufacturerBox.getSelectionModel().isEmpty()) {
             selectedCategory = categoryBox.getValue();
             selectedManufacturer = manufacturerBox.getValue();
+            if (Objects.equals(selectedCategory, "Terminal"))
+                modelBox.getItems().setAll(terminalMap.get(selectedManufacturer));
+            else if (Objects.equals(selectedCategory, "Printer"))
+                modelBox.getItems().setAll(printerMap.get(selectedManufacturer));
+            else if (Objects.equals(selectedCategory, "Panel PC"))
+                modelBox.getItems().setAll(panelPCMap.get(selectedManufacturer));
+            else if (Objects.equals(selectedCategory, "Spare Part"))
+                modelBox.getItems().setAll(sparePartMap.get(selectedManufacturer));
+            else System.out.println("No model found");
         }
-    }
-
-    public void onSearchButtonClick() {
-        if (Objects.equals(selectedCategory, "Terminal"))
-            modelBox.getItems().setAll(terminalMap.get(selectedManufacturer));
-        else if (Objects.equals(selectedCategory, "Printer"))
-            modelBox.getItems().setAll(printerMap.get(selectedManufacturer));
-        else if (Objects.equals(selectedCategory, "Panel PC"))
-            modelBox.getItems().setAll(panelPCMap.get(selectedManufacturer));
-        else if (Objects.equals(selectedCategory, "Spare Part"))
-            modelBox.getItems().setAll(sparePartMap.get(selectedManufacturer));
-        else System.out.println("No model found");
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {
@@ -78,8 +75,6 @@ public class ProductOptionsController {
         stage.setTitle("Menu");
         stage.setScene(new Scene(root, 800, 500));
         stage.show();
-
-
     }
 
 
