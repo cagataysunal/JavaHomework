@@ -9,6 +9,7 @@ public class Datasource {
     private Datasource() {
 
     }
+
     public static Datasource getInstance() {
         return instance;
     }
@@ -16,7 +17,7 @@ public class Datasource {
     public static final String DB_NAME = "tech_support.db";
     public static final String CONNECTION_STRING = "jdbc:sqlite:" + System.getProperty("user.dir") + "/" + DB_NAME;
 
-    private Connection conn;
+    private Connection con;
 
     public static final String TABLE_CUSTOMERS = "customer";
     public static final String COLUMN_CUSTOMER_ID = "_id";
@@ -106,10 +107,14 @@ public class Datasource {
             COLUMN_REPAIR_TECHNICIAN + " INTEGER, " +
             COLUMN_REPAIR_DATE + " TEXT)";
 
+
+    public static final String CHECK_ACCOUNT_SIGN_IN = "SELECT * FROM " + TABLE_ACCOUNTS + " WHERE " +
+            COLUMN_ACCOUNT_EMAIL + " = ? AND " + COLUMN_ACCOUNT_PASSWORD + " = ?";
+
     public boolean open() {
 
         try {
-            conn = DriverManager.getConnection(CONNECTION_STRING);
+            con = DriverManager.getConnection(CONNECTION_STRING);
             return true;
         } catch (SQLException e) {
             System.out.println("Something went wrong while opening database: " + e.getMessage());
@@ -119,8 +124,8 @@ public class Datasource {
 
     public void close() {
         try {
-            if (conn != null) {
-                conn.close();
+            if (con != null) {
+                con.close();
             }
         } catch (SQLException e) {
             System.out.println("Couldn't close connection: " + e.getMessage());
@@ -128,7 +133,7 @@ public class Datasource {
     }
 
     public void createTablesIfNotExists() {
-        try (Statement statement = conn.createStatement()) {
+        try (Statement statement = con.createStatement()) {
             statement.execute(CREATE_ACCOUNTS);
             statement.execute(CREATE_CUSTOMERS);
             statement.execute(CREATE_PRODUCTS);
@@ -136,6 +141,22 @@ public class Datasource {
             statement.execute(CREATE_TECHNICIANS);
         } catch (SQLException e) {
             System.out.println("Couldn't create tables: " + e.getMessage());
+        }
+    }
+
+    // TODO: Sanitize inputs
+
+    public boolean checkSignIn(String email, String password) {
+
+        try (PreparedStatement preparedStatement = con.prepareStatement(CHECK_ACCOUNT_SIGN_IN)) {
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+
+        } catch (SQLException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+            return false;
         }
     }
 
