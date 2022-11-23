@@ -1,4 +1,4 @@
-package com.example.javahomework.controller;
+package com.example.javahomework;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

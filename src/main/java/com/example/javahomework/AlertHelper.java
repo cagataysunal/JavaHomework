@@ -1,4 +1,4 @@
-package com.example.javahomework.controller;
+package com.example.javahomework;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Window;
