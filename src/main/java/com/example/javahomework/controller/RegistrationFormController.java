@@ -16,7 +16,10 @@ import java.util.Objects;
 public class RegistrationFormController {
     @FXML
     private TextField nameField;
-
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private TextField emailField;
     @FXML
     private Button submitButton;
 
@@ -25,9 +28,6 @@ public class RegistrationFormController {
 
         Window owner = submitButton.getScene().getWindow();
 
-        // Validation is commented out for debug purposes.
-
-        /*
         if (nameField.getText().isEmpty()) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
                     "Please enter your name");
@@ -43,7 +43,6 @@ public class RegistrationFormController {
                     "Please enter a password");
             return;
         }
-        */
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, owner, "Registration Successful!",
                 "Welcome " + nameField.getText());
 
