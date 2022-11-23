@@ -10,21 +10,21 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 public class TechnicalSupportApplication extends Application {
-    Datasource datasource = new Datasource();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        datasource.open();
-        datasource.createTablesIfNotExists();
+        Datasource.getInstance().open();
+        Datasource.getInstance().createTablesIfNotExists();
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
         primaryStage.setTitle("Technical Support");
         primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();
     }
+
     @Override
     public void stop() {
-        datasource.close();
+        Datasource.getInstance().close();
     }
 
 

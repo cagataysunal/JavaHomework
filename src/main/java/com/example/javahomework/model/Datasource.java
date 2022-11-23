@@ -4,6 +4,15 @@ package com.example.javahomework.model;
 import java.sql.*;
 
 public class Datasource {
+    private static final Datasource instance = new Datasource();
+
+    private Datasource() {
+
+    }
+    public static Datasource getInstance() {
+        return instance;
+    }
+
     public static final String DB_NAME = "tech_support.db";
     public static final String CONNECTION_STRING = "jdbc:sqlite:" + System.getProperty("user.dir") + "/" + DB_NAME;
 
