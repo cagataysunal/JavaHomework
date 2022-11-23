@@ -1,5 +1,6 @@
 package com.example.javahomework;
 
+import com.example.javahomework.model.Datasource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -17,20 +20,16 @@ import java.util.Objects;
 public class LoginFormController {
     @FXML
     private Button submitButton;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private PasswordField passwordField;
 
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) throws IOException {
 
         Window owner = submitButton.getScene().getWindow();
 
-        // Validation is commented out for debug purposes.
-
-        /*
-        if (nameField.getText().isEmpty()) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
-                    "Please enter your name");
-            return;
-        }
         if (emailField.getText().isEmpty()) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, owner, "Form Error!",
                     "Please enter your email id");
@@ -41,11 +40,18 @@ public class LoginFormController {
                     "Please enter a password");
             return;
         }
-        */
-        AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, owner, "Registration Successful!",
-                "Welcome");
 
-        switchToMenu(event);
+        if (Datasource.getInstance().checkSignIn(emailField.getText(), passwordField.getText())) {
+            AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, owner, "Login Successful!",
+                    "Welcome");
+
+            switchToMenu(event);
+        } else {
+            AlertHelper.showAlert(Alert.AlertType.ERROR, owner, "Validation Error!",
+                    "User does not exist");
+        }
+
+
     }
 
     @FXML

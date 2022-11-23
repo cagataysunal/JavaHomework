@@ -38,12 +38,12 @@
 
             <Label text="Email ID : " GridPane.rowIndex="2">
             </Label>
-            <TextField prefHeight="40" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+            <TextField fx:id="emailField" prefHeight="40" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
 
 
             <Label text="Password : " GridPane.rowIndex="3">
             </Label>
-            <PasswordField prefHeight="40" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+            <PasswordField fx:id="passwordField" prefHeight="40" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
             <CheckBox text="Remember Me" GridPane.columnIndex="1" GridPane.rowIndex="4">
             </CheckBox>
 

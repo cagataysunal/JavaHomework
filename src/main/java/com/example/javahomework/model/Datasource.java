@@ -22,9 +22,9 @@ public class Datasource {
     public static final String TABLE_CUSTOMERS = "customer";
     public static final String COLUMN_CUSTOMER_ID = "_id";
     public static final String COLUMN_CUSTOMER_TITLE = "title";
-    public static final String COLUMN_CUSTOMER_TAX_ADMINISTRATION = "tax_administration";
-    public static final String COLUMN_CUSTOMER_TAX_NUMBER = "tax_number";
-    public static final String COLUMN_CUSTOMER_E_MAIL = "e_mail";
+    public static final String COLUMN_CUSTOMER_TAX_ADMINISTRATION = "taxadministration";
+    public static final String COLUMN_CUSTOMER_TAX_NUMBER = "taxnumber";
+    public static final String COLUMN_CUSTOMER_E_MAIL = "email";
     public static final String COLUMN_CUSTOMER_PHONE = "phone";
     public static final String COLUMN_CUSTOMER_CITY = "city";
     public static final String COLUMN_CUSTOMER_DISTRICT = "district";
@@ -40,9 +40,9 @@ public class Datasource {
 
     public static final String TABLE_REPAIRS = "repair";
     public static final String COLUMN_REPAIR_ID = "_id";
-    public static final String COLUMN_REPAIR_PRODUCT = "product_id";
-    public static final String COLUMN_REPAIR_CUSTOMER = "customer_id";
-    public static final String COLUMN_REPAIR_FAULT_DESCRIPTION = "fault_description";
+    public static final String COLUMN_REPAIR_PRODUCT = "product";
+    public static final String COLUMN_REPAIR_CUSTOMER = "customer";
+    public static final String COLUMN_REPAIR_FAULT_DESCRIPTION = "description";
     public static final String COLUMN_REPAIR_TECHNICIAN = "technician";
     public static final String COLUMN_REPAIR_DATE = "date";
 
@@ -52,8 +52,8 @@ public class Datasource {
 
     public static final String TABLE_ACCOUNTS = "account";
     public static final String COLUMN_ACCOUNT_ID = "_id";
-    public static final String COLUMN_ACCOUNT_NAME = "full_name";
-    public static final String COLUMN_ACCOUNT_EMAIL = "e_mail";
+    public static final String COLUMN_ACCOUNT_NAME = "name";
+    public static final String COLUMN_ACCOUNT_EMAIL = "email";
     public static final String COLUMN_ACCOUNT_PASSWORD = "password";
 
     public static final String VIEW_REPORT = "report_view";
