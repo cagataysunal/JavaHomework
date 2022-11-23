@@ -22,13 +22,14 @@ public class TechnicalSupportApplication extends Application {
         primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();
     }
+    @Override
+    public void stop() {
+        datasource.close();
+    }
 
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public void stop() {
-        datasource.close();
-    }
 }
