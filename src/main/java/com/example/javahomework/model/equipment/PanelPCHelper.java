@@ -1,4 +1,4 @@
-package com.example.javahomework.equipment;
+package com.example.javahomework.model.equipment;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

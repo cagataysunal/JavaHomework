@@ -1,4 +1,4 @@
-package com.example.javahomework;
+package com.example.javahomework.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +16,7 @@ import java.util.Objects;
 public class RegistrationFormController {
     @FXML
     private TextField nameField;
-    
+
     @FXML
     private Button submitButton;
 

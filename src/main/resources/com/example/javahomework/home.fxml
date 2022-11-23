@@ -4,15 +4,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javahomework.HomeController">
-    <Button fx:id="registerButton" layoutX="241.0" layoutY="200.0" onAction="#onRegisterButtonClick" prefWidth="119.0" text="Register">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.javahomework.controller.HomeController">
+    <Button layoutX="241.0" layoutY="200.0" onAction="#onRegisterButtonClick" prefWidth="119.0" text="Register">
         <font>
-            <Font size="24.0" />
+            <Font size="24.0"/>
         </font>
     </Button>
-    <Button fx:id="signInButton" layoutX="248.0" layoutY="122.0" onAction="#onLoginButtonClick" text="Sign In">
+    <Button layoutX="248.0" layoutY="122.0" onAction="#onLoginButtonClick" text="Sign In">
         <font>
-            <Font size="24.0" />
+            <Font size="24.0"/>
         </font>
     </Button>
 </VBox>
