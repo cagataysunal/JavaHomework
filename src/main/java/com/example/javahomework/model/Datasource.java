@@ -111,6 +111,9 @@ public class Datasource {
     public static final String CHECK_ACCOUNT_SIGN_IN = "SELECT * FROM " + TABLE_ACCOUNTS + " WHERE " +
             COLUMN_ACCOUNT_EMAIL + " = ? AND " + COLUMN_ACCOUNT_PASSWORD + " = ?";
 
+    public static final String REGISTER_ACCOUNT = "INSERT INTO " + TABLE_ACCOUNTS + " (" + COLUMN_ACCOUNT_NAME + ", " +
+            COLUMN_ACCOUNT_EMAIL + ", " + COLUMN_ACCOUNT_PASSWORD + ") VALUES (?, ?, ?)";
+
     public boolean open() {
 
         try {
@@ -144,8 +147,6 @@ public class Datasource {
         }
     }
 
-    // TODO: Sanitize inputs
-
     public boolean checkSignIn(String email, String password) {
 
         try (PreparedStatement preparedStatement = con.prepareStatement(CHECK_ACCOUNT_SIGN_IN)) {
@@ -160,5 +161,15 @@ public class Datasource {
         }
     }
 
+    public void registerUser(String name, String email, String password) {
+        try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_ACCOUNT)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, email);
+            preparedStatement.setString(3, password);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
 
+    }
 }

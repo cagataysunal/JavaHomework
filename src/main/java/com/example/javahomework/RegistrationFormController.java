@@ -1,5 +1,6 @@
 package com.example.javahomework;
 
+import com.example.javahomework.model.Datasource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,6 +44,7 @@ public class RegistrationFormController {
                     "Please enter a password");
             return;
         }
+        Datasource.getInstance().registerUser(nameField.getText(), emailField.getText(), passwordField.getText());
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, owner, "Registration Successful!",
                 "Welcome " + nameField.getText());
 
