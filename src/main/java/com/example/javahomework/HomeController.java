@@ -12,11 +12,6 @@ import java.util.Objects;
 
 public class HomeController {
 
-//    @FXML
-//    private Button signInButton;
-//    @FXML
-//    private Button registerButton;
-
     public void onLoginButtonClick(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login_form.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
