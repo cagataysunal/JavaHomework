@@ -43,7 +43,7 @@ public class LoginFormController {
 
         if (Datasource.getInstance().checkSignIn(emailField.getText(), passwordField.getText())) {
             AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, owner, "Login Successful!",
-                    "Welcome");
+                    "Login Successful!");
 
             switchToMenu(event);
         } else {
