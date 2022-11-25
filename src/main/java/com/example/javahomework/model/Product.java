@@ -2,8 +2,8 @@ package com.example.javahomework.model;
 
 public class Product {
     private int _id;
-    private String category;
     private String manufacturer;
+    private String category;
     private String model;
     private String description;
     private double tax;

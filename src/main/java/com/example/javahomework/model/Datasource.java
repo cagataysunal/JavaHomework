@@ -89,10 +89,10 @@ public class Datasource {
 
     public static final String CREATE_PRODUCTS = "CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCTS + " (" +
             COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY, " +
-            COLUMN_PRODUCT_DESCRIPTION + " TEXT, " +
-            COLUMN_PRODUCT_CATEGORY + " TEXT, " +
             COLUMN_PRODUCT_MANUFACTURER + " TEXT, " +
+            COLUMN_PRODUCT_CATEGORY + " TEXT, " +
             COLUMN_PRODUCT_MODEL + " TEXT, " +
+            COLUMN_PRODUCT_DESCRIPTION + " TEXT, " +
             COLUMN_PRODUCT_TAX + " DOUBLE)";
 
     public static final String CREATE_TECHNICIANS = "CREATE TABLE IF NOT EXISTS " + TABLE_TECHNICIANS + " (" +
@@ -113,6 +113,10 @@ public class Datasource {
 
     public static final String REGISTER_ACCOUNT = "INSERT INTO " + TABLE_ACCOUNTS + " (" + COLUMN_ACCOUNT_NAME + ", " +
             COLUMN_ACCOUNT_EMAIL + ", " + COLUMN_ACCOUNT_PASSWORD + ") VALUES (?, ?, ?)";
+
+    public static final String REGISTER_PRODUCT = "INSERT INTO " + TABLE_PRODUCTS + " (" + COLUMN_PRODUCT_MANUFACTURER + ", " +
+            COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_MODEL + ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_TAX + ") " +
+            "VALUES (?, ?, ?, ?, ?)";
 
     public boolean open() {
 
@@ -167,6 +171,23 @@ public class Datasource {
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, password);
             preparedStatement.execute();
+        } catch (SQLException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
+
+    }
+
+    public void registerProduct(Product product) {
+
+        try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_PRODUCT)) {
+
+            preparedStatement.setString(1, product.getManufacturer());
+            preparedStatement.setString(2, product.getCategory());
+            preparedStatement.setString(3, product.getModel());
+            preparedStatement.setString(4, product.getDescription());
+            preparedStatement.setDouble(5, product.getTax());
+            preparedStatement.execute();
+
         } catch (SQLException e) {
             System.out.println("Something went wrong: " + e.getMessage());
         }
