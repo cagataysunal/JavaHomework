@@ -1,72 +1,72 @@
 package com.example.javahomework;
 
-import com.example.javahomework.model.equipment.PanelPCHelper;
-import com.example.javahomework.model.equipment.PrinterHelper;
-import com.example.javahomework.model.equipment.SparePartHelper;
-import com.example.javahomework.model.equipment.TerminalHelper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.example.javahomework.model.Datasource;
+import com.example.javahomework.model.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Objects;
 
 public class AddProductController {
+    private Product product;
     @FXML
-    private ComboBox<String> categoryBox;
+    private TextField manufacturer;
     @FXML
-    private ComboBox<String> manufacturerBox;
+    private TextField category;
     @FXML
-    private ComboBox<String> modelBox;
-
-    Map<String, ObservableList<String>> panelPCMap = PanelPCHelper.getInstance().getPanelMap();
-    Map<String, ObservableList<String>> printerMap = PrinterHelper.getInstance().getPrinterMap();
-    Map<String, ObservableList<String>> sparePartMap = SparePartHelper.getInstance().getTerminalMap();
-    Map<String, ObservableList<String>> terminalMap = TerminalHelper.getInstance().getTerminalMap();
-    String selectedCategory;
-    String selectedManufacturer;
-
+    private TextField model;
+    @FXML
+    private TextField description;
+    @FXML
+    private Label validatorMessage;
 
     public void initialize() {
-        ObservableList<String> categoryList = FXCollections.observableArrayList(
-                "Terminal",
-                "Printer",
-                "Panel PC",
-                "Spare Part"
-        );
-        ObservableList<String> manufacturerList = FXCollections.observableArrayList(
-                "Zebra",
-                "Toshiba",
-                "OEM"
-        );
-
-        categoryBox.getItems().setAll(categoryList);
-        manufacturerBox.getItems().setAll(manufacturerList);
+        product = new Product();
     }
 
-    public void onBoxSelect() {
+    public void onRegisterButtonPress() {
 
-        if (!categoryBox.getSelectionModel().isEmpty() && !manufacturerBox.getSelectionModel().isEmpty()) {
-            selectedCategory = categoryBox.getValue();
-            selectedManufacturer = manufacturerBox.getValue();
-            if (Objects.equals(selectedCategory, "Terminal"))
-                modelBox.getItems().setAll(terminalMap.get(selectedManufacturer));
-            else if (Objects.equals(selectedCategory, "Printer"))
-                modelBox.getItems().setAll(printerMap.get(selectedManufacturer));
-            else if (Objects.equals(selectedCategory, "Panel PC"))
-                modelBox.getItems().setAll(panelPCMap.get(selectedManufacturer));
-            else if (Objects.equals(selectedCategory, "Spare Part"))
-                modelBox.getItems().setAll(sparePartMap.get(selectedManufacturer));
-            else System.out.println("No model found");
+        if (validateField(description)) {
+            return;
         }
+        if (validateField(manufacturer)) {
+            return;
+        }
+        if (validateField(category)) {
+            return;
+        }
+        if (validateField(model)) {
+            return;
+        }
+
+
+        product.setManufacturer(manufacturer.getText().toLowerCase());
+        product.setCategory(category.getText().toLowerCase());
+        product.setModel(model.getText().toLowerCase());
+        product.setDescription(description.getText().toLowerCase());
+
+
+        if (Datasource.getInstance().registerProduct(product)) {
+            validatorMessage.setText("Product added!");
+        }
+
+
+    }
+
+    public boolean validateField(TextField field) {
+        if (field.getText().trim().isEmpty()) {
+            validatorMessage.setText("Please fill all fields.");
+            return true;
+        } else
+            return false;
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {

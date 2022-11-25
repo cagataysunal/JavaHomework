@@ -18,7 +18,6 @@ public class TechnicalSupportApplication extends Application {
             System.out.println("Couldn't connect to the database.");
             Platform.exit();
         } else {
-            Datasource.getInstance().createTablesIfNotExists();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
             primaryStage.setTitle("Technical Support");
             primaryStage.setScene(new Scene(root, 800, 500));

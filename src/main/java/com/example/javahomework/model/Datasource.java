@@ -22,8 +22,8 @@ public class Datasource {
     public static final String TABLE_CUSTOMERS = "customer";
     public static final String COLUMN_CUSTOMER_ID = "_id";
     public static final String COLUMN_CUSTOMER_TITLE = "title";
-    public static final String COLUMN_CUSTOMER_TAX_ADMINISTRATION = "taxadministration";
-    public static final String COLUMN_CUSTOMER_TAX_NUMBER = "taxnumber";
+    public static final String COLUMN_CUSTOMER_TAX_ADMINISTRATION = "tax_administration";
+    public static final String COLUMN_CUSTOMER_TAX_NUMBER = "tax_number";
     public static final String COLUMN_CUSTOMER_E_MAIL = "email";
     public static final String COLUMN_CUSTOMER_PHONE = "phone";
     public static final String COLUMN_CUSTOMER_CITY = "city";
@@ -36,7 +36,6 @@ public class Datasource {
     public static final String COLUMN_PRODUCT_CATEGORY = "category";
     public static final String COLUMN_PRODUCT_MANUFACTURER = "manufacturer";
     public static final String COLUMN_PRODUCT_MODEL = "model";
-    public static final String COLUMN_PRODUCT_TAX = "tax";
 
     public static final String TABLE_REPAIRS = "repair";
     public static final String COLUMN_REPAIR_ID = "_id";
@@ -92,8 +91,7 @@ public class Datasource {
             COLUMN_PRODUCT_MANUFACTURER + " TEXT, " +
             COLUMN_PRODUCT_CATEGORY + " TEXT, " +
             COLUMN_PRODUCT_MODEL + " TEXT, " +
-            COLUMN_PRODUCT_DESCRIPTION + " TEXT, " +
-            COLUMN_PRODUCT_TAX + " DOUBLE)";
+            COLUMN_PRODUCT_DESCRIPTION + " TEXT)";
 
     public static final String CREATE_TECHNICIANS = "CREATE TABLE IF NOT EXISTS " + TABLE_TECHNICIANS + " (" +
             COLUMN_TECHNICIAN_ID + " INTEGER PRIMARY KEY, " +
@@ -115,13 +113,14 @@ public class Datasource {
             COLUMN_ACCOUNT_EMAIL + ", " + COLUMN_ACCOUNT_PASSWORD + ") VALUES (?, ?, ?)";
 
     public static final String REGISTER_PRODUCT = "INSERT INTO " + TABLE_PRODUCTS + " (" + COLUMN_PRODUCT_MANUFACTURER + ", " +
-            COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_MODEL + ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_TAX + ") " +
-            "VALUES (?, ?, ?, ?, ?)";
+            COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_MODEL + ", " + COLUMN_PRODUCT_DESCRIPTION + ") " +
+            "VALUES (?, ?, ?, ?)";
 
     public boolean open() {
 
         try {
             con = DriverManager.getConnection(CONNECTION_STRING);
+            createTablesIfNotExists();
             return true;
         } catch (SQLException e) {
             System.out.println("Something went wrong while opening database: " + e.getMessage());
@@ -139,13 +138,16 @@ public class Datasource {
         }
     }
 
-    public void createTablesIfNotExists() {
+    private void createTablesIfNotExists() {
         try (Statement statement = con.createStatement()) {
+            con.setAutoCommit(false);
             statement.execute(CREATE_ACCOUNTS);
             statement.execute(CREATE_CUSTOMERS);
             statement.execute(CREATE_PRODUCTS);
             statement.execute(CREATE_REPAIRS);
             statement.execute(CREATE_TECHNICIANS);
+            con.commit();
+            con.setAutoCommit(true);
         } catch (SQLException e) {
             System.out.println("Couldn't create tables: " + e.getMessage());
         }
@@ -165,19 +167,21 @@ public class Datasource {
         }
     }
 
-    public void registerUser(String name, String email, String password) {
+    public boolean registerUser(String name, String email, String password) {
         try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_ACCOUNT)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, password);
             preparedStatement.execute();
+            return true;
         } catch (SQLException e) {
             System.out.println("Something went wrong: " + e.getMessage());
+            return false;
         }
 
     }
 
-    public void registerProduct(Product product) {
+    public boolean registerProduct(Product product) {
 
         try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_PRODUCT)) {
 
@@ -185,11 +189,12 @@ public class Datasource {
             preparedStatement.setString(2, product.getCategory());
             preparedStatement.setString(3, product.getModel());
             preparedStatement.setString(4, product.getDescription());
-            preparedStatement.setDouble(5, product.getTax());
             preparedStatement.execute();
+            return true;
 
         } catch (SQLException e) {
             System.out.println("Something went wrong: " + e.getMessage());
+            return false;
         }
 
     }
