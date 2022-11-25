@@ -6,7 +6,6 @@ public class Product {
     private String category;
     private String model;
     private String description;
-    private double tax;
 
     public int get_id() {
         return _id;
@@ -46,13 +45,5 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public double getTax() {
-        return tax;
-    }
-
-    public void setTax(double tax) {
-        this.tax = tax;
     }
 }
