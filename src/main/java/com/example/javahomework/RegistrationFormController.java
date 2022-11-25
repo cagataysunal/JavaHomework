@@ -44,7 +44,7 @@ public class RegistrationFormController {
                     "Please enter a password");
             return;
         }
-        Datasource.getInstance().registerUser(nameField.getText(), emailField.getText(), passwordField.getText());
+        Datasource.getInstance().registerAccount(nameField.getText(), emailField.getText(), passwordField.getText());
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, owner, "Registration Successful!",
                 "Welcome " + nameField.getText());
 
