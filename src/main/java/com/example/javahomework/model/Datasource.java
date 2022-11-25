@@ -2,8 +2,6 @@ package com.example.javahomework.model;
 
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Datasource {
     private static final Datasource instance = new Datasource();
@@ -21,7 +19,6 @@ public class Datasource {
 
     private Connection con;
 
-    // Define Tables
     public static final String TABLE_CUSTOMERS = "customer";
     public static final String COLUMN_CUSTOMER_ID = "_id";
     public static final String COLUMN_CUSTOMER_TITLE = "title";
@@ -58,13 +55,8 @@ public class Datasource {
     public static final String COLUMN_ACCOUNT_EMAIL = "email";
     public static final String COLUMN_ACCOUNT_PASSWORD = "password";
 
-    public static final String TABLE_MANUFACTURERS = "manufacturers";
-    public static final String COLUMN_MANUFACTURER_ID = "_id";
-    public static final String COLUMN_MANUFACTURER_NAME = "name";
-
     public static final String VIEW_REPORT = "report_view";
 
-    // Create Tables
     public static final String CREATE_VIEW_REPORT = "CREATE VIEW IF NOT EXISTS " +
             VIEW_REPORT + " AS SELECT " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_TITLE + ", " +
             TABLE_PRODUCTS + "." + COLUMN_PRODUCT_CATEGORY + ", " +
@@ -96,7 +88,7 @@ public class Datasource {
 
     public static final String CREATE_PRODUCTS = "CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCTS + " (" +
             COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY, " +
-            COLUMN_PRODUCT_MANUFACTURER + " INTEGER, " +
+            COLUMN_PRODUCT_MANUFACTURER + " TEXT, " +
             COLUMN_PRODUCT_CATEGORY + " TEXT, " +
             COLUMN_PRODUCT_MODEL + " TEXT, " +
             COLUMN_PRODUCT_DESCRIPTION + " TEXT)";
@@ -113,11 +105,7 @@ public class Datasource {
             COLUMN_REPAIR_TECHNICIAN + " INTEGER, " +
             COLUMN_REPAIR_DATE + " TEXT)";
 
-    public static final String CREATE_MANUFACTURER = "CREATE TABLE IF NOT EXISTS " + TABLE_MANUFACTURERS + " (" +
-            COLUMN_MANUFACTURER_ID + " INTEGER PRIMARY KEY, " +
-            COLUMN_MANUFACTURER_NAME + " TEXT)";
 
-    // Prepared Queries
     public static final String CHECK_ACCOUNT_SIGN_IN = "SELECT * FROM " + TABLE_ACCOUNTS + " WHERE " +
             COLUMN_ACCOUNT_EMAIL + " = ? AND " + COLUMN_ACCOUNT_PASSWORD + " = ?";
 
@@ -127,10 +115,6 @@ public class Datasource {
     public static final String REGISTER_PRODUCT = "INSERT INTO " + TABLE_PRODUCTS + " (" + COLUMN_PRODUCT_MANUFACTURER + ", " +
             COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_MODEL + ", " + COLUMN_PRODUCT_DESCRIPTION + ") " +
             "VALUES (?, ?, ?, ?)";
-
-    public static final String GET_MANUFACTURER_NAMES = "SELECT DISTINCT " + COLUMN_MANUFACTURER_NAME + " FROM " +
-            TABLE_MANUFACTURERS;
-
 
     public boolean open() {
 
@@ -211,22 +195,5 @@ public class Datasource {
             return false;
         }
 
-    }
-
-    public List<String> getManufacturers() {
-        List<String> manufacturerList = new ArrayList<>();
-
-        try (Statement statement = con.createStatement();
-             ResultSet resultSet = statement.executeQuery(GET_MANUFACTURER_NAMES)) {
-
-            while (resultSet.next()) {
-                manufacturerList.add(resultSet.getString(1));
-            }
-            return manufacturerList;
-
-        } catch (SQLException e) {
-            System.out.println("Can't get manufacturers: " + e.getMessage());
-            return null;
-        }
     }
 }
