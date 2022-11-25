@@ -2,6 +2,8 @@ package com.example.javahomework.model;
 
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Datasource {
     private static final Datasource instance = new Datasource();
@@ -205,5 +207,53 @@ public class Datasource {
             return false;
         }
 
+    }
+
+    public List<String> getProductManufacturerNames() {
+        List<String> productManufacturerNames = new ArrayList<>();
+
+        try (Statement statement = con.createStatement();
+             ResultSet resultSet = statement.executeQuery(GET_PRODUCT_MANUFACTURER_NAMES)) {
+            while (resultSet.next()) {
+                productManufacturerNames.add(resultSet.getString(1));
+            }
+            return productManufacturerNames;
+        } catch (SQLException e) {
+            System.out.println("Can't get manufacturer names: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<String> getProductCategoryNames() {
+        List<String> productCategoryNames = new ArrayList<>();
+
+        try (Statement statement = con.createStatement();
+             ResultSet resultSet = statement.executeQuery(GET_PRODUCT_CATEGORY_NAMES)) {
+            while (resultSet.next()) {
+                productCategoryNames.add(resultSet.getString(1));
+            }
+            return productCategoryNames;
+        } catch (SQLException e) {
+            System.out.println("Can't get category names: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<String> getProducts(String manufacturer, String category) {
+        List<String> products = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = con.prepareStatement(GET_PRODUCT_MODEL_NAMES)) {
+            preparedStatement.setString(1, manufacturer);
+            preparedStatement.setString(2, category);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                products.add(resultSet.getString(1));
+            }
+            return products;
+
+        } catch (SQLException e) {
+            System.out.println("Can't get products: " + e.getMessage());
+            return null;
+        }
     }
 }
