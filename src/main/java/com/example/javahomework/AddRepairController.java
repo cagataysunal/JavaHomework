@@ -1,6 +1,8 @@
 package com.example.javahomework;
 
+import com.example.javahomework.model.Customer;
 import com.example.javahomework.model.Datasource;
+import com.example.javahomework.model.Repair;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -30,6 +33,10 @@ public class AddRepairController {
     private TextField faultDescription;
     @FXML
     private ComboBox<String> technicianBox;
+    @FXML
+    private Label validatorMessage;
+    private Repair repair;
+    private Customer customer;
 
 
     String selectedCategory;
@@ -52,11 +59,32 @@ public class AddRepairController {
             selectedManufacturer = manufacturerBox.getSelectionModel().getSelectedItem();
             modelList =
                     FXCollections.observableArrayList(Datasource.getInstance()
-                            .getProducts(selectedManufacturer, selectedCategory));
+                            .getProductModels(selectedManufacturer, selectedCategory));
             modelBox.getItems().setAll(modelList);
         }
+    }
+
+    public void onRegisterButtonPress() {
+
+        if (validateField(faultDescription)) {
+            return;
+        }
+        if (validateField(client)) {
+            return;
+        }
+        // TODO: Register repairs.
+
 
     }
+
+    public boolean validateField(TextField field) {
+        if (field.getText().trim().isEmpty()) {
+            validatorMessage.setText("Please fill all fields.");
+            return true;
+        } else
+            return false;
+    }
+
 
     public void switchToMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu.fxml")));

@@ -124,9 +124,9 @@ public class Datasource {
             TABLE_PRODUCTS;
     public static final String GET_PRODUCT_CATEGORY_NAMES = "SELECT DISTINCT " + COLUMN_PRODUCT_CATEGORY + " FROM " +
             TABLE_PRODUCTS;
-    public static final String GET_PRODUCT_MODEL_NAMES = "SELECT DISTINCT " + COLUMN_PRODUCT_MODEL + " FROM " +
+    public static final String GET_PRODUCTS_BY_MANUFACTURER_AND_CATEGORY =
+            "SELECT DISTINCT " + COLUMN_PRODUCT_MODEL + " FROM " +
             TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCT_MANUFACTURER + " = ? AND " + COLUMN_PRODUCT_CATEGORY + " = ?";
-
 
     public boolean open() {
 
@@ -239,10 +239,10 @@ public class Datasource {
         }
     }
 
-    public List<String> getProducts(String manufacturer, String category) {
+    public List<String> getProductModels(String manufacturer, String category) {
         List<String> products = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = con.prepareStatement(GET_PRODUCT_MODEL_NAMES)) {
+        try (PreparedStatement preparedStatement = con.prepareStatement(GET_PRODUCTS_BY_MANUFACTURER_AND_CATEGORY)) {
             preparedStatement.setString(1, manufacturer);
             preparedStatement.setString(2, category);
             ResultSet resultSet = preparedStatement.executeQuery();
