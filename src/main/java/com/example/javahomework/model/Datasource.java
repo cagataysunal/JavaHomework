@@ -167,16 +167,14 @@ public class Datasource {
         }
     }
 
-    public boolean registerUser(String name, String email, String password) {
+    public void registerAccount(String name, String email, String password) {
         try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_ACCOUNT)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, password);
             preparedStatement.execute();
-            return true;
         } catch (SQLException e) {
             System.out.println("Something went wrong: " + e.getMessage());
-            return false;
         }
 
     }
