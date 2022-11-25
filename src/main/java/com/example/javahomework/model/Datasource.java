@@ -19,6 +19,7 @@ public class Datasource {
 
     private Connection con;
 
+    // Define Tables
     public static final String TABLE_CUSTOMERS = "customer";
     public static final String COLUMN_CUSTOMER_ID = "_id";
     public static final String COLUMN_CUSTOMER_TITLE = "title";
@@ -57,6 +58,7 @@ public class Datasource {
 
     public static final String VIEW_REPORT = "report_view";
 
+    // Create Tables
     public static final String CREATE_VIEW_REPORT = "CREATE VIEW IF NOT EXISTS " +
             VIEW_REPORT + " AS SELECT " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_TITLE + ", " +
             TABLE_PRODUCTS + "." + COLUMN_PRODUCT_CATEGORY + ", " +
@@ -105,7 +107,7 @@ public class Datasource {
             COLUMN_REPAIR_TECHNICIAN + " INTEGER, " +
             COLUMN_REPAIR_DATE + " TEXT)";
 
-
+    // Prepared Queries
     public static final String CHECK_ACCOUNT_SIGN_IN = "SELECT * FROM " + TABLE_ACCOUNTS + " WHERE " +
             COLUMN_ACCOUNT_EMAIL + " = ? AND " + COLUMN_ACCOUNT_PASSWORD + " = ?";
 
