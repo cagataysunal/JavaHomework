@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 
-public class CustomerOptionsController {
+public class AddCustomerController {
 
 
     public void switchToMenu(ActionEvent event) throws IOException {

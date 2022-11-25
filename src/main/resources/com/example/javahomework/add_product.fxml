@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.javahomework.RepairOptionsController">
+            fx:controller="com.example.javahomework.AddProductController">
     <GridPane alignment="CENTER" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
               minWidth="-Infinity" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -26,29 +26,24 @@
             <RowConstraints minHeight="30.0" prefHeight="45.0"/>
             <RowConstraints minHeight="30.0" prefHeight="45.0"/>
             <RowConstraints minHeight="30.0" prefHeight="45.0"/>
-            <RowConstraints minHeight="30.0" prefHeight="45.0"/>
-            <RowConstraints minHeight="30.0" prefHeight="45.0"/>
         </rowConstraints>
         <Label text="Equipment ID" GridPane.columnIndex="1"/>
         <Label text="Description" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
         <Label text="Category" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
         <Label text="Manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
         <Label text="Model" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-        <Label text="Client Title" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+        <Label text="Tax" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
         <TextField GridPane.columnIndex="2"/>
         <TextField GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-        <ComboBox fx:id="categoryBox" onAction="#onBoxSelect" prefWidth="200.0" promptText="Select"
-                  GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-        <ComboBox fx:id="manufacturerBox" onAction="#onBoxSelect" prefWidth="200.0" promptText="Select"
-                  GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="categoryBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
+                  GridPane.rowIndex="2" onAction="#onBoxSelect"/>
+        <ComboBox fx:id="manufacturerBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
+                  GridPane.rowIndex="3" onAction="#onBoxSelect"/>
         <ComboBox fx:id="modelBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
                   GridPane.rowIndex="4"/>
         <TextField GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+
+
         <Button mnemonicParsing="false" onAction="#switchToMenu" text="&lt;"/>
-        <Label text="Fault Description" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-        <Label text="Technician" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
-        <TextField GridPane.columnIndex="2" GridPane.rowIndex="6"/>
-        <ComboBox fx:id="technicianBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
-                  GridPane.rowIndex="7"/>
     </GridPane>
 </AnchorPane>

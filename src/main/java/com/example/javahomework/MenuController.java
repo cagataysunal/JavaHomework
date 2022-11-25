@@ -28,7 +28,7 @@ public class MenuController {
     }
 
     public void switchToCustomerOptions(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("customer_options.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("add_customer.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Customer Options");
         stage.setScene(new Scene(root, 800, 500));
@@ -37,7 +37,7 @@ public class MenuController {
     }
 
     public void switchToProductOptions(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("product_options.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("add_product.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Product Options");
         stage.setScene(new Scene(root, 800, 500));
@@ -46,7 +46,7 @@ public class MenuController {
     }
 
     public void switchToRepairOptions(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("repair_options.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("add_repair.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Repair Options");
         stage.setScene(new Scene(root, 800, 500));
