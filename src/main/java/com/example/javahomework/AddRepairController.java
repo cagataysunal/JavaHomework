@@ -1,9 +1,6 @@
 package com.example.javahomework;
 
-import com.example.javahomework.model.equipment.PanelPCHelper;
-import com.example.javahomework.model.equipment.PrinterHelper;
-import com.example.javahomework.model.equipment.SparePartHelper;
-import com.example.javahomework.model.equipment.TerminalHelper;
+import com.example.javahomework.model.Datasource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,10 +10,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Objects;
 
 public class AddRepairController {
@@ -28,42 +25,37 @@ public class AddRepairController {
     @FXML
     private ComboBox<String> modelBox;
     @FXML
+    private TextField client;
+    @FXML
+    private TextField faultDescription;
+    @FXML
     private ComboBox<String> technicianBox;
 
-    Map<String, ObservableList<String>> panelPCMap = PanelPCHelper.getInstance().getPanelMap();
-    Map<String, ObservableList<String>> printerMap = PrinterHelper.getInstance().getPrinterMap();
-    Map<String, ObservableList<String>> sparePartMap = SparePartHelper.getInstance().getTerminalMap();
-    Map<String, ObservableList<String>> terminalMap = TerminalHelper.getInstance().getTerminalMap();
+
     String selectedCategory;
     String selectedManufacturer;
-    ObservableList<String> technicianList = FXCollections.observableArrayList("Alex Black", "Tony", "Alex Banks",
-            "Amy", "Kurt", "John", "Jack", "Olivia", "Owen");
+    ObservableList<String> categoryList =
+            FXCollections.observableArrayList(Datasource.getInstance().getProductCategoryNames());
+    ObservableList<String> manufacturerList =
+            FXCollections.observableArrayList(Datasource.getInstance().getProductManufacturerNames());
+    ObservableList<String> modelList;
+
 
     public void initialize() {
-        ObservableList<String> categoryList = FXCollections.observableArrayList("Terminal", "Printer", "Panel PC",
-                "Spare Part");
-        ObservableList<String> manufacturerList = FXCollections.observableArrayList("Zebra", "Toshiba", "OEM");
-
-        categoryBox.getItems().setAll(categoryList);
         manufacturerBox.getItems().setAll(manufacturerList);
-        technicianBox.getItems().setAll(technicianList);
+        categoryBox.getItems().setAll(categoryList);
     }
 
     public void onBoxSelect() {
-
-        if (!categoryBox.getSelectionModel().isEmpty() && !manufacturerBox.getSelectionModel().isEmpty()) {
-            selectedCategory = categoryBox.getValue();
-            selectedManufacturer = manufacturerBox.getValue();
-            if (Objects.equals(selectedCategory, "Terminal"))
-                modelBox.getItems().setAll(terminalMap.get(selectedManufacturer));
-            else if (Objects.equals(selectedCategory, "Printer"))
-                modelBox.getItems().setAll(printerMap.get(selectedManufacturer));
-            else if (Objects.equals(selectedCategory, "Panel PC"))
-                modelBox.getItems().setAll(panelPCMap.get(selectedManufacturer));
-            else if (Objects.equals(selectedCategory, "Spare Part"))
-                modelBox.getItems().setAll(sparePartMap.get(selectedManufacturer));
-            else System.out.println("No model found");
+        if (!(manufacturerBox.getSelectionModel().isEmpty() || categoryBox.getSelectionModel().isEmpty())) {
+            selectedCategory = categoryBox.getSelectionModel().getSelectedItem();
+            selectedManufacturer = manufacturerBox.getSelectionModel().getSelectedItem();
+            modelList =
+                    FXCollections.observableArrayList(Datasource.getInstance()
+                            .getProducts(selectedManufacturer, selectedCategory));
+            modelBox.getItems().setAll(modelList);
         }
+
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {

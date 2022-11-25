@@ -35,11 +35,11 @@
         <ComboBox fx:id="categoryBox" onAction="#onBoxSelect" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2" GridPane.rowIndex="1" />
         <ComboBox fx:id="manufacturerBox" onAction="#onBoxSelect" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2" GridPane.rowIndex="2" />
         <ComboBox fx:id="modelBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-        <TextField GridPane.columnIndex="2" GridPane.rowIndex="4" />
+        <TextField fx:id="client" GridPane.columnIndex="2" GridPane.rowIndex="4" />
         <Button mnemonicParsing="false" onAction="#switchToMenu" text="&lt;" />
         <Label text="Fault Description" GridPane.columnIndex="1" GridPane.rowIndex="5" />
         <Label text="Technician" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-        <TextField GridPane.columnIndex="2" GridPane.rowIndex="5" />
+        <TextField fx:id="faultDescription" GridPane.columnIndex="2" GridPane.rowIndex="5" />
         <ComboBox fx:id="technicianBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2" GridPane.rowIndex="6" />
         <Label text="Add Repair" GridPane.columnIndex="1" GridPane.columnSpan="2">
             <font>
