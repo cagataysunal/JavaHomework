@@ -296,7 +296,7 @@ public class Datasource {
     public Map<String, Integer> mapCustomerNameToId(List<Customer> customers) {
         Map<String, Integer> nameToInt = new HashMap<>();
         for (Customer customer : customers) {
-            nameToInt.put(customer.getTitle(), customer.get_id());
+            nameToInt.putIfAbsent(customer.getTitle(), customer.get_id());
         }
         return nameToInt;
     }
@@ -327,7 +327,7 @@ public class Datasource {
         Map<String, Integer> nameToId = new HashMap<>();
 
         for (Product product : products) {
-            nameToId.put(product.getModel(), product.get_id());
+            nameToId.putIfAbsent(product.getModel(), product.get_id());
         }
         return nameToId;
     }
@@ -354,7 +354,7 @@ public class Datasource {
     public Map<String,Integer> mapTechnicianToId(List<Technician> technicians) {
         Map<String, Integer> nameToId = new HashMap<>();
         for (Technician technician : technicians) {
-            nameToId.put(technician.getName(), technician.get_id());
+            nameToId.putIfAbsent(technician.getName(), technician.get_id());
         }
         return nameToId;
     }
