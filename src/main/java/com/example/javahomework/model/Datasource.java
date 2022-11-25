@@ -118,6 +118,14 @@ public class Datasource {
             COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_MODEL + ", " + COLUMN_PRODUCT_DESCRIPTION + ") " +
             "VALUES (?, ?, ?, ?)";
 
+    public static final String GET_PRODUCT_MANUFACTURER_NAMES = "SELECT DISTINCT " + COLUMN_PRODUCT_MANUFACTURER + " FROM " +
+            TABLE_PRODUCTS;
+    public static final String GET_PRODUCT_CATEGORY_NAMES = "SELECT DISTINCT " + COLUMN_PRODUCT_CATEGORY + " FROM " +
+            TABLE_PRODUCTS;
+    public static final String GET_PRODUCT_MODEL_NAMES = "SELECT DISTINCT " + COLUMN_PRODUCT_MODEL + " FROM " +
+            TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCT_MANUFACTURER + " = ? AND " + COLUMN_PRODUCT_CATEGORY + " = ?";
+
+
     public boolean open() {
 
         try {
