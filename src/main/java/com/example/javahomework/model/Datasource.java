@@ -3,7 +3,9 @@ package com.example.javahomework.model;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Datasource {
     private static final Datasource instance = new Datasource();
@@ -126,7 +128,11 @@ public class Datasource {
             TABLE_PRODUCTS;
     public static final String GET_PRODUCTS_BY_MANUFACTURER_AND_CATEGORY =
             "SELECT DISTINCT " + COLUMN_PRODUCT_MODEL + " FROM " +
-            TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCT_MANUFACTURER + " = ? AND " + COLUMN_PRODUCT_CATEGORY + " = ?";
+                    TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCT_MANUFACTURER + " = ? AND " + COLUMN_PRODUCT_CATEGORY + " = ?";
+
+    public static final String GET_CUSTOMERS = "SELECT * FROM " + TABLE_CUSTOMERS;
+    public static final String GET_PRODUCTS = "SELECT * FROM " + TABLE_PRODUCTS;
+    public static final String GET_TECHNICIANS = "SELECT * FROM " + TABLE_TECHNICIANS;
 
     public boolean open() {
 
@@ -255,5 +261,101 @@ public class Datasource {
             System.out.println("Can't get products: " + e.getMessage());
             return null;
         }
+    }
+
+    public List<Customer> getCustomers() {
+        List<Customer> customers = new ArrayList<>();
+
+        try (Statement statement = con.createStatement();
+             ResultSet resultSet = statement.executeQuery(GET_CUSTOMERS)) {
+
+            while (resultSet.next()) {
+
+                Customer customer = new Customer();
+
+                customer.set_id(resultSet.getInt(1));
+                customer.setTitle(resultSet.getString(2));
+                customer.setTaxAdministration(resultSet.getString(3));
+                customer.setTaxNumber(resultSet.getString(4));
+                customer.setEmail(resultSet.getString(5));
+                customer.setPhone(resultSet.getString(6));
+                customer.setCity(resultSet.getString(7));
+                customer.setDistrict(resultSet.getString(8));
+                customer.setAddress(resultSet.getString(9));
+                customers.add(customer);
+            }
+            return customers;
+
+        } catch (SQLException e) {
+            System.out.println("Can't get customers: " + e.getMessage());
+            return null;
+        }
+
+    }
+
+    public Map<String, Integer> mapCustomerNameToId(List<Customer> customers) {
+        Map<String, Integer> nameToInt = new HashMap<>();
+        for (Customer customer : customers) {
+            nameToInt.put(customer.getTitle(), customer.get_id());
+        }
+        return nameToInt;
+    }
+
+    public List<Product> getProducts() {
+        List<Product> products = new ArrayList<>();
+
+        try (Statement statement = con.createStatement();
+             ResultSet resultSet = statement.executeQuery(GET_PRODUCTS)) {
+            while (resultSet.next()) {
+                Product product = new Product();
+
+                product.set_id(resultSet.getInt(1));
+                product.setCategory(resultSet.getString(2));
+                product.setManufacturer(resultSet.getString(3));
+                product.setModel(resultSet.getString(4));
+                product.setDescription(resultSet.getString(5));
+                products.add(product);
+            }
+            return products;
+        } catch (SQLException e) {
+            System.out.println("Can't get products: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public Map<String, Integer> mapProductNameToId(List<Product> products) {
+        Map<String, Integer> nameToId = new HashMap<>();
+
+        for (Product product : products) {
+            nameToId.put(product.getModel(), product.get_id());
+        }
+        return nameToId;
+    }
+
+    public List<Technician> getTechnicians() {
+        List<Technician> technicians = new ArrayList<>();
+
+        try (Statement statement = con.createStatement();
+             ResultSet resultSet = statement.executeQuery(GET_TECHNICIANS)) {
+            while (resultSet.next()) {
+                Technician technician = new Technician();
+                technician.set_id(resultSet.getInt(1));
+                technician.setName(resultSet.getString(2));
+                technicians.add(technician);
+            }
+            return technicians;
+
+        } catch (SQLException e) {
+            System.out.println("Can't get technicians: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public Map<String,Integer> mapTechnicianToId(List<Technician> technicians) {
+        Map<String, Integer> nameToId = new HashMap<>();
+        for (Technician technician : technicians) {
+            nameToId.put(technician.getName(), technician.get_id());
+        }
+        return nameToId;
     }
 }
