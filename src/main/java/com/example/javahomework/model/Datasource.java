@@ -201,8 +201,8 @@ public class Datasource {
 
         try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_PRODUCT)) {
 
-            preparedStatement.setString(1, product.getManufacturer());
-            preparedStatement.setString(2, product.getCategory());
+            preparedStatement.setString(1, product.getCategory());
+            preparedStatement.setString(2, product.getManufacturer());
             preparedStatement.setString(3, product.getModel());
             preparedStatement.setString(4, product.getDescription());
             preparedStatement.execute();
