@@ -1,14 +1,12 @@
 package com.example.javahomework.model;
 
-import java.time.LocalDateTime;
-
 public class Repair {
     private int _id;
     private int product;
     private int customer;
     private String faultDescription;
     private int technician;
-    private LocalDateTime dateTime;
+    private String dateTime;
 
     public int get_id() {
         return _id;
@@ -50,11 +48,11 @@ public class Repair {
         this.technician = technician;
     }
 
-    public LocalDateTime getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 }

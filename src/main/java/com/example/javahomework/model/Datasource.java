@@ -74,13 +74,11 @@ public class Datasource {
             TABLE_REPAIRS + "." + COLUMN_REPAIR_CUSTOMER + " = " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_ID +
             " INNER JOIN " + TABLE_TECHNICIANS + " ON " +
             TABLE_REPAIRS + "." + COLUMN_REPAIR_TECHNICIAN + " = " + TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_ID;
-
     public static final String CREATE_ACCOUNTS = "CREATE TABLE IF NOT EXISTS " + TABLE_ACCOUNTS + " (" +
             COLUMN_ACCOUNT_ID + " INTEGER PRIMARY KEY, " +
             COLUMN_ACCOUNT_NAME + " TEXT, " +
             COLUMN_ACCOUNT_EMAIL + " TEXT, " +
             COLUMN_ACCOUNT_PASSWORD + " TEXT)";
-
     public static final String CREATE_CUSTOMERS = "CREATE TABLE IF NOT EXISTS " + TABLE_CUSTOMERS + " (" +
             COLUMN_CUSTOMER_ID + " INTEGER PRIMARY KEY, " +
             COLUMN_CUSTOMER_TITLE + " TEXT, " +
@@ -91,18 +89,15 @@ public class Datasource {
             COLUMN_CUSTOMER_CITY + " TEXT, " +
             COLUMN_CUSTOMER_DISTRICT + " TEXT, " +
             COLUMN_CUSTOMER_ADDRESS + " TEXT)";
-
     public static final String CREATE_PRODUCTS = "CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCTS + " (" +
             COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY, " +
             COLUMN_PRODUCT_MANUFACTURER + " TEXT, " +
             COLUMN_PRODUCT_CATEGORY + " TEXT, " +
             COLUMN_PRODUCT_MODEL + " TEXT, " +
             COLUMN_PRODUCT_DESCRIPTION + " TEXT)";
-
     public static final String CREATE_TECHNICIANS = "CREATE TABLE IF NOT EXISTS " + TABLE_TECHNICIANS + " (" +
             COLUMN_TECHNICIAN_ID + " INTEGER PRIMARY KEY, " +
             COLUMN_TECHNICIAN_NAME + " TEXT)";
-
     public static final String CREATE_REPAIRS = "CREATE TABLE IF NOT EXISTS " + TABLE_REPAIRS + " (" +
             COLUMN_REPAIR_ID + " INTEGER PRIMARY KEY, " +
             COLUMN_REPAIR_CUSTOMER + " INTEGER, " +
@@ -114,14 +109,16 @@ public class Datasource {
     // Prepared Queries
     public static final String CHECK_ACCOUNT_SIGN_IN = "SELECT * FROM " + TABLE_ACCOUNTS + " WHERE " +
             COLUMN_ACCOUNT_EMAIL + " = ? AND " + COLUMN_ACCOUNT_PASSWORD + " = ?";
-
     public static final String REGISTER_ACCOUNT = "INSERT INTO " + TABLE_ACCOUNTS + " (" + COLUMN_ACCOUNT_NAME + ", " +
             COLUMN_ACCOUNT_EMAIL + ", " + COLUMN_ACCOUNT_PASSWORD + ") VALUES (?, ?, ?)";
-
     public static final String REGISTER_PRODUCT = "INSERT INTO " + TABLE_PRODUCTS + " (" + COLUMN_PRODUCT_MANUFACTURER + ", " +
             COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_MODEL + ", " + COLUMN_PRODUCT_DESCRIPTION + ") " +
             "VALUES (?, ?, ?, ?)";
+    public static final String REGISTER_REPAIR = "INSERT INTO " + TABLE_REPAIRS + " (" + COLUMN_REPAIR_CUSTOMER + ", " +
+            COLUMN_REPAIR_PRODUCT + ", " + COLUMN_REPAIR_FAULT_DESCRIPTION + ", " + COLUMN_REPAIR_TECHNICIAN + ", " +
+            COLUMN_REPAIR_DATE + ") VALUES (?, ?, ?, ?, ?)";
 
+    // SELECT Queries
     public static final String GET_PRODUCT_MANUFACTURER_NAMES = "SELECT DISTINCT " + COLUMN_PRODUCT_MANUFACTURER + " FROM " +
             TABLE_PRODUCTS;
     public static final String GET_PRODUCT_CATEGORY_NAMES = "SELECT DISTINCT " + COLUMN_PRODUCT_CATEGORY + " FROM " +
@@ -129,7 +126,6 @@ public class Datasource {
     public static final String GET_PRODUCTS_BY_MANUFACTURER_AND_CATEGORY =
             "SELECT DISTINCT " + COLUMN_PRODUCT_MODEL + " FROM " +
                     TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCT_MANUFACTURER + " = ? AND " + COLUMN_PRODUCT_CATEGORY + " = ?";
-
     public static final String GET_CUSTOMERS = "SELECT * FROM " + TABLE_CUSTOMERS;
     public static final String GET_PRODUCTS = "SELECT * FROM " + TABLE_PRODUCTS;
     public static final String GET_TECHNICIANS = "SELECT * FROM " + TABLE_TECHNICIANS;
@@ -177,6 +173,7 @@ public class Datasource {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
+            System.out.println("SQL statement: " + preparedStatement);
             return resultSet.next();
 
         } catch (SQLException e) {
@@ -190,6 +187,7 @@ public class Datasource {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);
             preparedStatement.setString(3, password);
+            System.out.println("SQL statement: " + preparedStatement);
             preparedStatement.execute();
         } catch (SQLException e) {
             System.out.println("Something went wrong: " + e.getMessage());
@@ -205,6 +203,7 @@ public class Datasource {
             preparedStatement.setString(2, product.getManufacturer());
             preparedStatement.setString(3, product.getModel());
             preparedStatement.setString(4, product.getDescription());
+            System.out.println("SQL statement: " + preparedStatement);
             preparedStatement.execute();
             return true;
 
@@ -212,7 +211,25 @@ public class Datasource {
             System.out.println("Something went wrong: " + e.getMessage());
             return false;
         }
+    }
 
+    public boolean registerRepair(Repair repair) {
+        // INSERT INTO repair (customer,
+        // product, description, technician,
+        // date) VALUES (?, ?, ?, ?, ?)
+        try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_REPAIR)) {
+            preparedStatement.setInt(1, repair.getCustomer());
+            preparedStatement.setInt(2, repair.getProduct());
+            preparedStatement.setString(3, repair.getFaultDescription());
+            preparedStatement.setInt(4, repair.getTechnician());
+            preparedStatement.setString(5, repair.getDateTime());
+            System.out.println("SQL statement: " + preparedStatement);
+            preparedStatement.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Can't register repair: " + e.getMessage());
+            return false;
+        }
     }
 
     public List<String> getProductManufacturerNames() {
@@ -251,6 +268,7 @@ public class Datasource {
         try (PreparedStatement preparedStatement = con.prepareStatement(GET_PRODUCTS_BY_MANUFACTURER_AND_CATEGORY)) {
             preparedStatement.setString(1, manufacturer);
             preparedStatement.setString(2, category);
+            System.out.println("SQL statement: " + preparedStatement);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 products.add(resultSet.getString(1));
@@ -351,7 +369,7 @@ public class Datasource {
         }
     }
 
-    public Map<String,Integer> mapTechnicianToId(List<Technician> technicians) {
+    public Map<String, Integer> mapTechnicianToId(List<Technician> technicians) {
         Map<String, Integer> nameToId = new HashMap<>();
         for (Technician technician : technicians) {
             nameToId.putIfAbsent(technician.getName(), technician.get_id());
