@@ -146,7 +146,7 @@ public class Datasource {
             "SELECT DISTINCT * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCT_MODEL + " = ?";
     public static final String GET_TECHNICIANS = "SELECT * FROM " + TABLE_TECHNICIANS;
     public static final String GET_TECHNICIAN_BY_NAME =
-            "SELECT DISTINCT * FROM " + TABLE_CUSTOMERS + " WHERE " + COLUMN_TECHNICIAN_NAME + " = ?";
+            "SELECT DISTINCT * FROM " + TABLE_TECHNICIANS + " WHERE " + COLUMN_TECHNICIAN_NAME + " = ?";
 
     public boolean open() {
 
