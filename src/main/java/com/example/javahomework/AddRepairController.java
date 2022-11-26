@@ -1,8 +1,6 @@
 package com.example.javahomework;
 
-import com.example.javahomework.model.Customer;
-import com.example.javahomework.model.Datasource;
-import com.example.javahomework.model.Repair;
+import com.example.javahomework.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +15,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class AddRepairController {
 
@@ -28,15 +30,15 @@ public class AddRepairController {
     @FXML
     private ComboBox<String> modelBox;
     @FXML
-    private TextField client;
+    private ComboBox<String> clientBox;
     @FXML
     private TextField faultDescription;
     @FXML
     private ComboBox<String> technicianBox;
     @FXML
     private Label validatorMessage;
-    private Repair repair;
-    private Customer customer;
+    private final List<Customer> customers = Datasource.getInstance().getCustomers();
+    private final List<Technician> technicians = Datasource.getInstance().getTechnicians();
 
 
     String selectedCategory;
@@ -46,11 +48,19 @@ public class AddRepairController {
     ObservableList<String> manufacturerList =
             FXCollections.observableArrayList(Datasource.getInstance().getProductManufacturerNames());
     ObservableList<String> modelList;
+    ObservableList<String> clientList =
+            FXCollections.observableArrayList(customers
+                    .stream().map(Customer::getTitle).collect(Collectors.toList()));
+    ObservableList<String> technicianList =
+            FXCollections.observableArrayList(technicians
+                    .stream().map(Technician::getName).collect(Collectors.toList()));
 
 
     public void initialize() {
         manufacturerBox.getItems().setAll(manufacturerList);
         categoryBox.getItems().setAll(categoryList);
+        clientBox.getItems().setAll(clientList);
+        technicianBox.getItems().setAll(technicianList);
     }
 
     public void onBoxSelect() {
@@ -69,10 +79,30 @@ public class AddRepairController {
         if (validateField(faultDescription)) {
             return;
         }
-        if (validateField(client)) {
-            return;
+        Customer customer = Datasource.getInstance().getCustomerByName(clientBox.getValue());
+        int customerId = customer.get_id();
+        Product product = Datasource.getInstance().getProductByName(modelBox.getValue());
+        int productId = product.get_id();
+        String description = faultDescription.getText();
+        Technician technician = Datasource.getInstance().getTechnicianByName(technicianBox.getValue());
+        int technicianId = technician.get_id();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String date = dtf.format(localDateTime);
+
+        Repair repair = new Repair();
+
+        repair.setCustomer(customerId);
+        repair.setProduct(productId);
+        repair.setFaultDescription(description);
+        repair.setTechnician(technicianId);
+        repair.setDateTime(date);
+
+        if (Datasource.getInstance().registerRepair(repair)) {
+            validatorMessage.setText("Repair added!");
+        } else {
+            validatorMessage.setText("SQL Error.");
         }
-        // TODO: Register repairs.
 
 
     }

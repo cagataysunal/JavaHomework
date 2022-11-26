@@ -63,72 +63,90 @@ public class Datasource {
     public static final String VIEW_REPORT = "report_view";
 
     // Create Tables
-    public static final String CREATE_VIEW_REPORT = "CREATE VIEW IF NOT EXISTS " +
-            VIEW_REPORT + " AS SELECT " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_TITLE + ", " +
-            TABLE_PRODUCTS + "." + COLUMN_PRODUCT_CATEGORY + ", " +
-            TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MANUFACTURER + ", " +
-            TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MODEL + ", " +
-            TABLE_REPAIRS + "." + COLUMN_REPAIR_DATE + ", " +
-            TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_NAME + " FROM " + TABLE_REPAIRS +
-            " INNER JOIN " + TABLE_PRODUCTS + " ON " +
-            TABLE_REPAIRS + "." + COLUMN_REPAIR_CUSTOMER + " = " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_ID +
-            " INNER JOIN " + TABLE_TECHNICIANS + " ON " +
-            TABLE_REPAIRS + "." + COLUMN_REPAIR_TECHNICIAN + " = " + TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_ID;
-    public static final String CREATE_ACCOUNTS = "CREATE TABLE IF NOT EXISTS " + TABLE_ACCOUNTS + " (" +
-            COLUMN_ACCOUNT_ID + " INTEGER PRIMARY KEY, " +
-            COLUMN_ACCOUNT_NAME + " TEXT, " +
-            COLUMN_ACCOUNT_EMAIL + " TEXT, " +
-            COLUMN_ACCOUNT_PASSWORD + " TEXT)";
-    public static final String CREATE_CUSTOMERS = "CREATE TABLE IF NOT EXISTS " + TABLE_CUSTOMERS + " (" +
-            COLUMN_CUSTOMER_ID + " INTEGER PRIMARY KEY, " +
-            COLUMN_CUSTOMER_TITLE + " TEXT, " +
-            COLUMN_CUSTOMER_TAX_ADMINISTRATION + " TEXT, " +
-            COLUMN_CUSTOMER_TAX_NUMBER + " TEXT, " +
-            COLUMN_CUSTOMER_E_MAIL + " TEXT, " +
-            COLUMN_CUSTOMER_PHONE + " TEXT, " +
-            COLUMN_CUSTOMER_CITY + " TEXT, " +
-            COLUMN_CUSTOMER_DISTRICT + " TEXT, " +
-            COLUMN_CUSTOMER_ADDRESS + " TEXT)";
-    public static final String CREATE_PRODUCTS = "CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCTS + " (" +
-            COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY, " +
-            COLUMN_PRODUCT_MANUFACTURER + " TEXT, " +
-            COLUMN_PRODUCT_CATEGORY + " TEXT, " +
-            COLUMN_PRODUCT_MODEL + " TEXT, " +
-            COLUMN_PRODUCT_DESCRIPTION + " TEXT)";
-    public static final String CREATE_TECHNICIANS = "CREATE TABLE IF NOT EXISTS " + TABLE_TECHNICIANS + " (" +
-            COLUMN_TECHNICIAN_ID + " INTEGER PRIMARY KEY, " +
-            COLUMN_TECHNICIAN_NAME + " TEXT)";
-    public static final String CREATE_REPAIRS = "CREATE TABLE IF NOT EXISTS " + TABLE_REPAIRS + " (" +
-            COLUMN_REPAIR_ID + " INTEGER PRIMARY KEY, " +
-            COLUMN_REPAIR_CUSTOMER + " INTEGER, " +
-            COLUMN_REPAIR_PRODUCT + " INTEGER, " +
-            COLUMN_REPAIR_FAULT_DESCRIPTION + " TEXT, " +
-            COLUMN_REPAIR_TECHNICIAN + " INTEGER, " +
-            COLUMN_REPAIR_DATE + " TEXT)";
+    public static final String CREATE_VIEW_REPORT =
+            "CREATE VIEW IF NOT EXISTS " +
+                    VIEW_REPORT + " AS SELECT " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_TITLE + ", " +
+                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_CATEGORY + ", " +
+                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MANUFACTURER + ", " +
+                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MODEL + ", " +
+                    TABLE_REPAIRS + "." + COLUMN_REPAIR_DATE + ", " +
+                    TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_NAME + " FROM " + TABLE_REPAIRS +
+                    " INNER JOIN " + TABLE_PRODUCTS + " ON " +
+                    TABLE_REPAIRS + "." + COLUMN_REPAIR_CUSTOMER + " = " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_ID +
+                    " INNER JOIN " + TABLE_TECHNICIANS + " ON " +
+                    TABLE_REPAIRS + "." + COLUMN_REPAIR_TECHNICIAN + " = " + TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_ID;
+    public static final String CREATE_ACCOUNTS =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_ACCOUNTS + " (" +
+                    COLUMN_ACCOUNT_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_ACCOUNT_NAME + " TEXT, " +
+                    COLUMN_ACCOUNT_EMAIL + " TEXT, " +
+                    COLUMN_ACCOUNT_PASSWORD + " TEXT)";
+    public static final String CREATE_CUSTOMERS =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_CUSTOMERS + " (" +
+                    COLUMN_CUSTOMER_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_CUSTOMER_TITLE + " TEXT, " +
+                    COLUMN_CUSTOMER_TAX_ADMINISTRATION + " TEXT, " +
+                    COLUMN_CUSTOMER_TAX_NUMBER + " TEXT, " +
+                    COLUMN_CUSTOMER_E_MAIL + " TEXT, " +
+                    COLUMN_CUSTOMER_PHONE + " TEXT, " +
+                    COLUMN_CUSTOMER_CITY + " TEXT, " +
+                    COLUMN_CUSTOMER_DISTRICT + " TEXT, " +
+                    COLUMN_CUSTOMER_ADDRESS + " TEXT)";
+    public static final String CREATE_PRODUCTS =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCTS + " (" +
+                    COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_PRODUCT_MANUFACTURER + " TEXT, " +
+                    COLUMN_PRODUCT_CATEGORY + " TEXT, " +
+                    COLUMN_PRODUCT_MODEL + " TEXT, " +
+                    COLUMN_PRODUCT_DESCRIPTION + " TEXT)";
+    public static final String CREATE_TECHNICIANS =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_TECHNICIANS + " (" +
+                    COLUMN_TECHNICIAN_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_TECHNICIAN_NAME + " TEXT)";
+    public static final String CREATE_REPAIRS =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_REPAIRS + " (" +
+                    COLUMN_REPAIR_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_REPAIR_CUSTOMER + " INTEGER, " +
+                    COLUMN_REPAIR_PRODUCT + " INTEGER, " +
+                    COLUMN_REPAIR_FAULT_DESCRIPTION + " TEXT, " +
+                    COLUMN_REPAIR_TECHNICIAN + " INTEGER, " +
+                    COLUMN_REPAIR_DATE + " TEXT)";
 
     // Prepared Queries
-    public static final String CHECK_ACCOUNT_SIGN_IN = "SELECT * FROM " + TABLE_ACCOUNTS + " WHERE " +
-            COLUMN_ACCOUNT_EMAIL + " = ? AND " + COLUMN_ACCOUNT_PASSWORD + " = ?";
-    public static final String REGISTER_ACCOUNT = "INSERT INTO " + TABLE_ACCOUNTS + " (" + COLUMN_ACCOUNT_NAME + ", " +
-            COLUMN_ACCOUNT_EMAIL + ", " + COLUMN_ACCOUNT_PASSWORD + ") VALUES (?, ?, ?)";
-    public static final String REGISTER_PRODUCT = "INSERT INTO " + TABLE_PRODUCTS + " (" + COLUMN_PRODUCT_MANUFACTURER + ", " +
-            COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_MODEL + ", " + COLUMN_PRODUCT_DESCRIPTION + ") " +
-            "VALUES (?, ?, ?, ?)";
-    public static final String REGISTER_REPAIR = "INSERT INTO " + TABLE_REPAIRS + " (" + COLUMN_REPAIR_CUSTOMER + ", " +
-            COLUMN_REPAIR_PRODUCT + ", " + COLUMN_REPAIR_FAULT_DESCRIPTION + ", " + COLUMN_REPAIR_TECHNICIAN + ", " +
-            COLUMN_REPAIR_DATE + ") VALUES (?, ?, ?, ?, ?)";
+    public static final String CHECK_ACCOUNT_SIGN_IN =
+            "SELECT * FROM " + TABLE_ACCOUNTS + " WHERE " +
+                    COLUMN_ACCOUNT_EMAIL + " = ? AND " + COLUMN_ACCOUNT_PASSWORD + " = ?";
+    public static final String REGISTER_ACCOUNT =
+            "INSERT INTO " + TABLE_ACCOUNTS + " (" + COLUMN_ACCOUNT_NAME + ", " +
+                    COLUMN_ACCOUNT_EMAIL + ", " + COLUMN_ACCOUNT_PASSWORD + ") VALUES (?, ?, ?)";
+    public static final String REGISTER_PRODUCT =
+            "INSERT INTO " + TABLE_PRODUCTS + " (" + COLUMN_PRODUCT_MANUFACTURER + ", " +
+                    COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_MODEL + ", " + COLUMN_PRODUCT_DESCRIPTION + ") " +
+                    "VALUES (?, ?, ?, ?)";
+    public static final String REGISTER_REPAIR =
+            "INSERT INTO " + TABLE_REPAIRS + " (" + COLUMN_REPAIR_CUSTOMER + ", " +
+                    COLUMN_REPAIR_PRODUCT + ", " + COLUMN_REPAIR_FAULT_DESCRIPTION + ", " + COLUMN_REPAIR_TECHNICIAN + ", " +
+                    COLUMN_REPAIR_DATE + ") VALUES (?, ?, ?, ?, ?)";
 
     // SELECT Queries
-    public static final String GET_PRODUCT_MANUFACTURER_NAMES = "SELECT DISTINCT " + COLUMN_PRODUCT_MANUFACTURER + " FROM " +
-            TABLE_PRODUCTS;
+    public static final String GET_PRODUCT_MANUFACTURER_NAMES =
+            "SELECT DISTINCT " + COLUMN_PRODUCT_MANUFACTURER + " FROM " + TABLE_PRODUCTS;
     public static final String GET_PRODUCT_CATEGORY_NAMES = "SELECT DISTINCT " + COLUMN_PRODUCT_CATEGORY + " FROM " +
             TABLE_PRODUCTS;
     public static final String GET_PRODUCTS_BY_MANUFACTURER_AND_CATEGORY =
             "SELECT DISTINCT " + COLUMN_PRODUCT_MODEL + " FROM " +
                     TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCT_MANUFACTURER + " = ? AND " + COLUMN_PRODUCT_CATEGORY + " = ?";
     public static final String GET_CUSTOMERS = "SELECT * FROM " + TABLE_CUSTOMERS;
+    public static final String GET_CUSTOMER_BY_NAME =
+            "SELECT DISTINCT * FROM " + TABLE_CUSTOMERS + " WHERE " + COLUMN_CUSTOMER_TITLE + " = ?";
+    public static final String GET_CUSTOMER_NAMES =
+            "SELECT DISTINCT " + COLUMN_CUSTOMER_TITLE + " FROM " + TABLE_CUSTOMERS;
     public static final String GET_PRODUCTS = "SELECT * FROM " + TABLE_PRODUCTS;
+    public static final String GET_PRODUCT_BY_NAME =
+            "SELECT DISTINCT * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCT_MODEL + " = ?";
     public static final String GET_TECHNICIANS = "SELECT * FROM " + TABLE_TECHNICIANS;
+    public static final String GET_TECHNICIAN_BY_NAME =
+            "SELECT DISTINCT * FROM " + TABLE_CUSTOMERS + " WHERE " + COLUMN_TECHNICIAN_NAME + " = ?";
 
     public boolean open() {
 
@@ -237,6 +255,8 @@ public class Datasource {
 
         try (Statement statement = con.createStatement();
              ResultSet resultSet = statement.executeQuery(GET_PRODUCT_MANUFACTURER_NAMES)) {
+            System.out.println("SQL statement: " + GET_PRODUCT_MANUFACTURER_NAMES);
+
             while (resultSet.next()) {
                 productManufacturerNames.add(resultSet.getString(1));
             }
@@ -252,12 +272,43 @@ public class Datasource {
 
         try (Statement statement = con.createStatement();
              ResultSet resultSet = statement.executeQuery(GET_PRODUCT_CATEGORY_NAMES)) {
+            System.out.println("SQL statement: " + GET_PRODUCT_CATEGORY_NAMES);
+
             while (resultSet.next()) {
                 productCategoryNames.add(resultSet.getString(1));
             }
             return productCategoryNames;
         } catch (SQLException e) {
             System.out.println("Can't get category names: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public Product getProductByName(String name) {
+        Product product = new Product();
+//        CREATE TABLE IF NOT EXISTS product (
+//                _id INTEGER PRIMARY KEY,
+//                manufacturer TEXT,
+//                category TEXT,
+//                model TEXT,
+//                description TEXT)
+
+        try (PreparedStatement preparedStatement = con.prepareStatement(GET_PRODUCT_BY_NAME)) {
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                product.set_id(resultSet.getInt(1));
+                product.setManufacturer(resultSet.getString(2));
+                product.setCategory(resultSet.getString(3));
+                product.setModel(resultSet.getString(4));
+                product.setDescription(resultSet.getString(5));
+                return product;
+            } else {
+                System.out.println("resultSet is empty.");
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Can't get product: " + e.getMessage());
             return null;
         }
     }
@@ -281,11 +332,57 @@ public class Datasource {
         }
     }
 
+    public List<String> getCustomerNames() {
+        List<String> customerNames = new ArrayList<>();
+
+        try (Statement statement = con.createStatement();
+             ResultSet resultSet = statement.executeQuery(GET_CUSTOMER_NAMES)) {
+            System.out.println("SQL statement: " + GET_CUSTOMER_NAMES);
+            while (resultSet.next()) {
+                customerNames.add(resultSet.getString(1));
+            }
+            return customerNames;
+
+        } catch (SQLException e) {
+            System.out.println("Can't get customer names: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public Customer getCustomerByName(String name) {
+        Customer customer = new Customer();
+        try (PreparedStatement preparedStatement = con.prepareStatement(GET_CUSTOMER_BY_NAME)) {
+
+            preparedStatement.setString(1, name);
+            System.out.println("SQL statement: " + preparedStatement);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                customer.set_id(resultSet.getInt(1));
+                customer.setTitle(resultSet.getString(2));
+                customer.setTaxAdministration(resultSet.getString(3));
+                customer.setTaxNumber(resultSet.getString(4));
+                customer.setEmail(resultSet.getString(5));
+                customer.setPhone(resultSet.getString(6));
+                customer.setCity(resultSet.getString(7));
+                customer.setDistrict(resultSet.getString(8));
+                customer.setAddress(resultSet.getString(9));
+                return customer;
+            } else {
+                System.out.println("resultSet is empty.");
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Can't get customer: " + e.getMessage());
+            return null;
+        }
+    }
+
     public List<Customer> getCustomers() {
         List<Customer> customers = new ArrayList<>();
 
         try (Statement statement = con.createStatement();
              ResultSet resultSet = statement.executeQuery(GET_CUSTOMERS)) {
+            System.out.println("SQL statement: " + GET_CUSTOMERS);
 
             while (resultSet.next()) {
 
@@ -324,6 +421,8 @@ public class Datasource {
 
         try (Statement statement = con.createStatement();
              ResultSet resultSet = statement.executeQuery(GET_PRODUCTS)) {
+            System.out.println("SQL statement: " + GET_PRODUCTS);
+
             while (resultSet.next()) {
                 Product product = new Product();
 
@@ -350,11 +449,34 @@ public class Datasource {
         return nameToId;
     }
 
+    public Technician getTechnicianByName(String name) {
+        Technician technician = new Technician();
+
+        try (PreparedStatement preparedStatement = con.prepareStatement(GET_TECHNICIAN_BY_NAME)) {
+            preparedStatement.setString(1, name);
+            System.out.println("SQL statement: " + preparedStatement);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                technician.set_id(resultSet.getInt(1));
+                technician.setName(resultSet.getString(2));
+                return technician;
+            } else {
+                System.out.println("resultSet is empty.");
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Can't get technician: " + e.getMessage());
+            return null;
+        }
+    }
+
     public List<Technician> getTechnicians() {
         List<Technician> technicians = new ArrayList<>();
 
         try (Statement statement = con.createStatement();
              ResultSet resultSet = statement.executeQuery(GET_TECHNICIANS)) {
+            System.out.println("SQL statement: " + GET_TECHNICIANS);
+
             while (resultSet.next()) {
                 Technician technician = new Technician();
                 technician.set_id(resultSet.getInt(1));
