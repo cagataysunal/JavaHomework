@@ -60,7 +60,7 @@ public class AddCustomerController {
 
 
         if (Datasource.getInstance().registerCustomer(customer)) {
-            validatorMessage.setText("Product added!");
+            validatorMessage.setText("Customer added!");
         } else {
             validatorMessage.setText("SQL Error.");
         }
