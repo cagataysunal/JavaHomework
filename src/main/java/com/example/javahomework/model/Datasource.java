@@ -149,6 +149,8 @@ public class Datasource {
     public static final String GET_TECHNICIANS = "SELECT * FROM " + TABLE_TECHNICIANS;
     public static final String GET_TECHNICIAN_BY_NAME =
             "SELECT DISTINCT * FROM " + TABLE_TECHNICIANS + " WHERE " + COLUMN_TECHNICIAN_NAME + " = ?";
+    public static final String GET_REPORT =
+            "SELECT DISTINCT * FROM " + VIEW_REPORT;
 
     public boolean open() {
 
@@ -458,6 +460,28 @@ public class Datasource {
 
         } catch (SQLException e) {
             System.out.println("Can't get technicians: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Report> getReport() {
+        List<Report> reports = new ArrayList<>();
+
+        try (Statement statement = con.createStatement();
+             ResultSet resultSet = statement.executeQuery(GET_REPORT)) {
+            while (resultSet.next()) {
+                Report report = new Report();
+                report.setCustomerTitle(resultSet.getString(1));
+                report.setProductCategory(resultSet.getString(2));
+                report.setProductManufacturer(resultSet.getString(3));
+                report.setProductModel(resultSet.getString(4));
+                report.setRepairDate(resultSet.getString(5));
+                report.setTechnicianName(resultSet.getString(6));
+                reports.add(report);
+            }
+            return reports;
+        } catch (SQLException e) {
+            System.out.println("Can't get report: " + e.getMessage());
             return null;
         }
     }

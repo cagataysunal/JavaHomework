@@ -20,7 +20,7 @@ public class TechnicalSupportApplication extends Application {
         } else {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
             primaryStage.setTitle("Technical Support");
-            primaryStage.setScene(new Scene(root, 800, 500));
+            primaryStage.setScene(new Scene(root, 1280, 720));
             primaryStage.show();
         }
     }

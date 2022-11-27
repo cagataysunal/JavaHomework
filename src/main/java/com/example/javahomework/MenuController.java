@@ -22,16 +22,16 @@ public class MenuController {
         Stage stage;
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Menu");
-        stage.setScene(new Scene(root, 800, 500));
+        stage.setTitle("Home");
+        stage.setScene(new Scene(root, 1280, 720));
         stage.show();
     }
 
     public void switchToCustomerOptions(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("add_customer.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Customer Options");
-        stage.setScene(new Scene(root, 800, 500));
+        stage.setTitle("Add Customer");
+        stage.setScene(new Scene(root, 1280, 720));
         stage.show();
 
     }
@@ -39,8 +39,8 @@ public class MenuController {
     public void switchToProductOptions(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("add_product.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Product Options");
-        stage.setScene(new Scene(root, 800, 500));
+        stage.setTitle("Add Product");
+        stage.setScene(new Scene(root, 1280, 720));
         stage.show();
 
     }
@@ -48,9 +48,17 @@ public class MenuController {
     public void switchToRepairOptions(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("add_repair.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Repair Options");
-        stage.setScene(new Scene(root, 800, 500));
+        stage.setTitle("Add Repair");
+        stage.setScene(new Scene(root, 1280, 720));
         stage.show();
 
+    }
+
+    public void switchToReport(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("report.fxml")));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("View Report");
+        stage.setScene(new Scene(root, 1280, 720));
+        stage.show();
     }
 }

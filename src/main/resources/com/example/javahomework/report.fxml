@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.javahomework.ReportController"
-            prefHeight="400.0" prefWidth="600.0">
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="600.0" prefWidth="1000.0" vgap="10.0"
+          xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.example.javahomework.ReportController">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+    <Label style="-fx-font: NORMAL 20 Tahoma;" text="Repair Report" GridPane.columnIndex="0" GridPane.rowIndex="0">
+    </Label>
+    <TableView fx:id="reportTableView" prefHeight="495.0" prefWidth="844.0" GridPane.columnIndex="0"
+               GridPane.rowIndex="1">
+        <columns>
+            <TableColumn fx:id="titleCol" text="Customer Title">
+                <cellValueFactory>
+                    <PropertyValueFactory property="customerTitle"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="catCol" text="Product Category">
+                <cellValueFactory>
+                    <PropertyValueFactory property="productCategory"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="manCol" text="Product Manufacturer">
+                <cellValueFactory>
+                    <PropertyValueFactory property="productManufacturer"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="modCol" text="Product Model">
+                <cellValueFactory>
+                    <PropertyValueFactory property="productModel"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="dateCol" text="Repair Date">
+                <cellValueFactory>
+                    <PropertyValueFactory property="repairDate"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="techCol" text="Technician Name">
+                <cellValueFactory>
+                    <PropertyValueFactory property="technicianName"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+    <columnConstraints>
+        <ColumnConstraints/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
+    </rowConstraints>
 
-</AnchorPane>
+</GridPane>
