@@ -81,7 +81,7 @@ public class AddCustomerController {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("Menu");
-        stage.setScene(new Scene(root, 800, 500));
+        stage.setScene(new Scene(root, 1280, 720));
         stage.show();
     }
 

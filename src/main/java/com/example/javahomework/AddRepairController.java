@@ -119,7 +119,7 @@ public class AddRepairController {
     public void switchToMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root, 800, 500));
+        stage.setScene(new Scene(root, 1280, 720));
         stage.setTitle("Menu");
         stage.show();
     }

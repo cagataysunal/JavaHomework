@@ -4,10 +4,19 @@ import com.example.javahomework.model.Datasource;
 import com.example.javahomework.model.Report;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class ReportController {
     @FXML
@@ -39,5 +48,13 @@ public class ReportController {
         modCol.setCellValueFactory(new PropertyValueFactory<>("productModel"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("repairDate"));
         techCol.setCellValueFactory(new PropertyValueFactory<>("technicianName"));
+    }
+
+    public void switchToMenu(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Menu");
+        stage.setScene(new Scene(root, 1280, 720));
+        stage.show();
     }
 }

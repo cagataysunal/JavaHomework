@@ -16,8 +16,13 @@ public class Datasource {
         return instance;
     }
 
-    public static final String DB_NAME = "tech_support.db";
-    public static final String CONNECTION_STRING = "jdbc:sqlite:" + System.getProperty("user.dir") + "/" + DB_NAME;
+    // TODO: Insert own username
+    public static final String USER = "root";
+    // TODO: Insert own password
+    public static final String PASSWORD = "password";
+
+    public static final String DB_NAME = "tech_support";
+    public static final String CONNECTION_STRING = "jdbc:mysql://localhost:3306" + "/" + DB_NAME;
 
     private Connection con;
 
@@ -62,7 +67,7 @@ public class Datasource {
 
     // Create Tables
     public static final String CREATE_VIEW_REPORT =
-            "CREATE VIEW IF NOT EXISTS " +
+            "CREATE OR REPLACE VIEW " +
                     VIEW_REPORT + " AS SELECT " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_TITLE + " AS customer_title, " +
                     TABLE_PRODUCTS + "." + COLUMN_PRODUCT_CATEGORY + " AS product_category, " +
                     TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MANUFACTURER + " AS product_manufacturer, " +
@@ -77,13 +82,13 @@ public class Datasource {
                     TABLE_REPAIRS + "." + COLUMN_REPAIR_TECHNICIAN + " = " + TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_ID;
     public static final String CREATE_ACCOUNTS =
             "CREATE TABLE IF NOT EXISTS " + TABLE_ACCOUNTS + " (" +
-                    COLUMN_ACCOUNT_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_ACCOUNT_ID + " INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
                     COLUMN_ACCOUNT_NAME + " TEXT, " +
                     COLUMN_ACCOUNT_EMAIL + " TEXT, " +
                     COLUMN_ACCOUNT_PASSWORD + " TEXT)";
     public static final String CREATE_CUSTOMERS =
             "CREATE TABLE IF NOT EXISTS " + TABLE_CUSTOMERS + " (" +
-                    COLUMN_CUSTOMER_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_CUSTOMER_ID + " INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
                     COLUMN_CUSTOMER_TITLE + " TEXT, " +
                     COLUMN_CUSTOMER_TAX_ADMINISTRATION + " TEXT, " +
                     COLUMN_CUSTOMER_TAX_NUMBER + " TEXT, " +
@@ -94,18 +99,18 @@ public class Datasource {
                     COLUMN_CUSTOMER_ADDRESS + " TEXT)";
     public static final String CREATE_PRODUCTS =
             "CREATE TABLE IF NOT EXISTS " + TABLE_PRODUCTS + " (" +
-                    COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
                     COLUMN_PRODUCT_MANUFACTURER + " TEXT, " +
                     COLUMN_PRODUCT_CATEGORY + " TEXT, " +
                     COLUMN_PRODUCT_MODEL + " TEXT, " +
                     COLUMN_PRODUCT_DESCRIPTION + " TEXT)";
     public static final String CREATE_TECHNICIANS =
             "CREATE TABLE IF NOT EXISTS " + TABLE_TECHNICIANS + " (" +
-                    COLUMN_TECHNICIAN_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_TECHNICIAN_ID + " INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
                     COLUMN_TECHNICIAN_NAME + " TEXT)";
     public static final String CREATE_REPAIRS =
             "CREATE TABLE IF NOT EXISTS " + TABLE_REPAIRS + " (" +
-                    COLUMN_REPAIR_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_REPAIR_ID + " INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
                     COLUMN_REPAIR_CUSTOMER + " INTEGER, " +
                     COLUMN_REPAIR_PRODUCT + " INTEGER, " +
                     COLUMN_REPAIR_FAULT_DESCRIPTION + " TEXT, " +
@@ -155,7 +160,7 @@ public class Datasource {
     public boolean open() {
 
         try {
-            con = DriverManager.getConnection(CONNECTION_STRING);
+            con = DriverManager.getConnection(CONNECTION_STRING, USER, PASSWORD);
             createTablesIfNotExists();
             return true;
         } catch (SQLException e) {
