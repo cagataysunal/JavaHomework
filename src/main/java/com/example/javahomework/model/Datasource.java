@@ -65,14 +65,16 @@ public class Datasource {
     // Create Tables
     public static final String CREATE_VIEW_REPORT =
             "CREATE VIEW IF NOT EXISTS " +
-                    VIEW_REPORT + " AS SELECT " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_TITLE + ", " +
-                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_CATEGORY + ", " +
-                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MANUFACTURER + ", " +
-                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MODEL + ", " +
+                    VIEW_REPORT + " AS SELECT " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_TITLE + " AS customer_title, " +
+                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_CATEGORY + " AS product_category, " +
+                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MANUFACTURER + " AS product_manufacturer, " +
+                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MODEL + " AS product_model, " +
                     TABLE_REPAIRS + "." + COLUMN_REPAIR_DATE + ", " +
                     TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_NAME + " FROM " + TABLE_REPAIRS +
-                    " INNER JOIN " + TABLE_PRODUCTS + " ON " +
+                    " INNER JOIN " + TABLE_CUSTOMERS + " ON " +
                     TABLE_REPAIRS + "." + COLUMN_REPAIR_CUSTOMER + " = " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_ID +
+                    " INNER JOIN " + TABLE_PRODUCTS + " ON " +
+                    TABLE_REPAIRS + "." + COLUMN_REPAIR_PRODUCT + " = " + TABLE_PRODUCTS + "." + COLUMN_PRODUCT_ID +
                     " INNER JOIN " + TABLE_TECHNICIANS + " ON " +
                     TABLE_REPAIRS + "." + COLUMN_REPAIR_TECHNICIAN + " = " + TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_ID;
     public static final String CREATE_ACCOUNTS =
