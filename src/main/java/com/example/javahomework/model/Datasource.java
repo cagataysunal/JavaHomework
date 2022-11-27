@@ -3,9 +3,7 @@ package com.example.javahomework.model;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Datasource {
     private static final Datasource instance = new Datasource();
@@ -129,6 +127,11 @@ public class Datasource {
             "INSERT INTO " + TABLE_REPAIRS + " (" + COLUMN_REPAIR_CUSTOMER + ", " +
                     COLUMN_REPAIR_PRODUCT + ", " + COLUMN_REPAIR_FAULT_DESCRIPTION + ", " + COLUMN_REPAIR_TECHNICIAN + ", " +
                     COLUMN_REPAIR_DATE + ") VALUES (?, ?, ?, ?, ?)";
+    public static final String REGISTER_CUSTOMER =
+            "INSERT INTO " + TABLE_CUSTOMERS + " (" + COLUMN_CUSTOMER_TITLE + ", " +
+                    COLUMN_CUSTOMER_TAX_ADMINISTRATION + ", " + COLUMN_CUSTOMER_TAX_NUMBER + ", " +
+                    COLUMN_CUSTOMER_E_MAIL + ", " + COLUMN_CUSTOMER_PHONE + ", " + COLUMN_CUSTOMER_CITY + ", " +
+                    COLUMN_CUSTOMER_DISTRICT + ", " + COLUMN_CUSTOMER_ADDRESS + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     // SELECT Queries
     public static final String GET_PRODUCT_MANUFACTURER_NAMES =
@@ -141,9 +144,6 @@ public class Datasource {
     public static final String GET_CUSTOMERS = "SELECT * FROM " + TABLE_CUSTOMERS;
     public static final String GET_CUSTOMER_BY_NAME =
             "SELECT DISTINCT * FROM " + TABLE_CUSTOMERS + " WHERE " + COLUMN_CUSTOMER_TITLE + " = ?";
-    public static final String GET_CUSTOMER_NAMES =
-            "SELECT DISTINCT " + COLUMN_CUSTOMER_TITLE + " FROM " + TABLE_CUSTOMERS;
-    public static final String GET_PRODUCTS = "SELECT * FROM " + TABLE_PRODUCTS;
     public static final String GET_PRODUCT_BY_NAME =
             "SELECT DISTINCT * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCT_MODEL + " = ?";
     public static final String GET_TECHNICIANS = "SELECT * FROM " + TABLE_TECHNICIANS;
@@ -252,6 +252,32 @@ public class Datasource {
         }
     }
 
+    public boolean registerCustomer(Customer customer) {
+//        INSERT INTO customer (title,
+//                tax_administration, tax_number,
+//                email, phone, city,
+//                district, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_CUSTOMER)) {
+
+            preparedStatement.setString(1, customer.getTitle());
+            preparedStatement.setString(2, customer.getTaxAdministration());
+            preparedStatement.setString(3, customer.getTaxNumber());
+            preparedStatement.setString(4, customer.getEmail());
+            preparedStatement.setString(5, customer.getPhone());
+            preparedStatement.setString(6, customer.getCity());
+            preparedStatement.setString(7, customer.getDistrict());
+            preparedStatement.setString(8, customer.getAddress());
+            System.out.println("SQL statement: " + preparedStatement);
+            preparedStatement.execute();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Can't register customer: " + e.getMessage());
+            return false;
+        }
+
+    }
+
     public List<String> getProductManufacturerNames() {
         List<String> productManufacturerNames = new ArrayList<>();
 
@@ -334,23 +360,6 @@ public class Datasource {
         }
     }
 
-    public List<String> getCustomerNames() {
-        List<String> customerNames = new ArrayList<>();
-
-        try (Statement statement = con.createStatement();
-             ResultSet resultSet = statement.executeQuery(GET_CUSTOMER_NAMES)) {
-            System.out.println("SQL statement: " + GET_CUSTOMER_NAMES);
-            while (resultSet.next()) {
-                customerNames.add(resultSet.getString(1));
-            }
-            return customerNames;
-
-        } catch (SQLException e) {
-            System.out.println("Can't get customer names: " + e.getMessage());
-            return null;
-        }
-    }
-
     public Customer getCustomerByName(String name) {
         Customer customer = new Customer();
         try (PreparedStatement preparedStatement = con.prepareStatement(GET_CUSTOMER_BY_NAME)) {
@@ -410,47 +419,6 @@ public class Datasource {
 
     }
 
-    public Map<String, Integer> mapCustomerNameToId(List<Customer> customers) {
-        Map<String, Integer> nameToInt = new HashMap<>();
-        for (Customer customer : customers) {
-            nameToInt.putIfAbsent(customer.getTitle(), customer.get_id());
-        }
-        return nameToInt;
-    }
-
-    public List<Product> getProducts() {
-        List<Product> products = new ArrayList<>();
-
-        try (Statement statement = con.createStatement();
-             ResultSet resultSet = statement.executeQuery(GET_PRODUCTS)) {
-            System.out.println("SQL statement: " + GET_PRODUCTS);
-
-            while (resultSet.next()) {
-                Product product = new Product();
-
-                product.set_id(resultSet.getInt(1));
-                product.setCategory(resultSet.getString(2));
-                product.setManufacturer(resultSet.getString(3));
-                product.setModel(resultSet.getString(4));
-                product.setDescription(resultSet.getString(5));
-                products.add(product);
-            }
-            return products;
-        } catch (SQLException e) {
-            System.out.println("Can't get products: " + e.getMessage());
-            return null;
-        }
-    }
-
-    public Map<String, Integer> mapProductNameToId(List<Product> products) {
-        Map<String, Integer> nameToId = new HashMap<>();
-
-        for (Product product : products) {
-            nameToId.putIfAbsent(product.getModel(), product.get_id());
-        }
-        return nameToId;
-    }
-
     public Technician getTechnicianByName(String name) {
         Technician technician = new Technician();
 
@@ -491,13 +459,5 @@ public class Datasource {
             System.out.println("Can't get technicians: " + e.getMessage());
             return null;
         }
-    }
-
-    public Map<String, Integer> mapTechnicianToId(List<Technician> technicians) {
-        Map<String, Integer> nameToId = new HashMap<>();
-        for (Technician technician : technicians) {
-            nameToId.putIfAbsent(technician.getName(), technician.get_id());
-        }
-        return nameToId;
     }
 }
