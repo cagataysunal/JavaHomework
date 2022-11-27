@@ -180,6 +180,7 @@ public class Datasource {
             statement.execute(CREATE_PRODUCTS);
             statement.execute(CREATE_REPAIRS);
             statement.execute(CREATE_TECHNICIANS);
+            statement.execute(CREATE_VIEW_REPORT);
             con.commit();
             con.setAutoCommit(true);
         } catch (SQLException e) {
