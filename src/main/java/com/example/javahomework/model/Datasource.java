@@ -19,10 +19,11 @@ public class Datasource {
     // TODO: Insert own username
     public static final String USER = "root";
     // TODO: Insert own password
-    public static final String PASSWORD = "password";
+    public static final String PASSWORD = "password1";
 
     public static final String DB_NAME = "tech_support";
-    public static final String CONNECTION_STRING = "jdbc:mysql://localhost:3306" + "/" + DB_NAME;
+    public static final String CONNECTION_STRING =
+            "jdbc:mysql://localhost:3306" + "/" + DB_NAME + "?createDatabaseIfNotExist=true";
 
     private Connection con;
 
