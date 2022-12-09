@@ -1,7 +1,6 @@
 package com.example.javahomework;
 
 import com.example.javahomework.model.Datasource;
-import com.example.javahomework.model.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,56 +14,21 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class AddProductController {
-    private Product product;
+public class AddTechnicianController {
     @FXML
-    private TextField manufacturer;
-    @FXML
-    private TextField category;
-    @FXML
-    private TextField model;
-    @FXML
-    private TextField description;
+    private TextField name;
     @FXML
     private Label validatorMessage;
 
-    public void initialize() {
-        product = new Product();
-    }
-
     public void onRegisterButtonPress() {
+        if (validateField(name)) return;
 
-        if (validateField(description)) {
-            return;
-        }
-        if (validateField(manufacturer)) {
-            return;
-        }
-        if (validateField(category)) {
-            return;
-        }
-        if (validateField(model)) {
-            return;
-        }
-
-
-        product.setManufacturer(manufacturer.getText().trim().toLowerCase());
-        product.setCategory(category.getText().trim().toLowerCase());
-        product.setModel(model.getText().trim().toLowerCase());
-        product.setDescription(description.getText().trim().toLowerCase());
-
-
-        if (Datasource.getInstance().registerProduct(product)) {
-            validatorMessage.setText("Product added!");
-            description.clear();
-            manufacturer.clear();
-            category.clear();
-            model.clear();
+        if (Datasource.getInstance().registerTechnician(name.getText().trim())) {
+            validatorMessage.setText("Technician Added!");
+            name.clear();
         } else {
             validatorMessage.setText("SQL Error!");
         }
-
-
     }
 
     public boolean validateField(TextField field) {
@@ -82,6 +46,4 @@ public class AddProductController {
         stage.setScene(new Scene(root, 1280, 720));
         stage.show();
     }
-
-
 }

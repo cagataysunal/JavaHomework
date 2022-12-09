@@ -19,7 +19,7 @@ public class Datasource {
     // TODO: Insert own username
     public static final String USER = "root";
     // TODO: Insert own password
-    public static final String PASSWORD = "password1";
+    public static final String PASSWORD = "131211042311cNA.";
 
     public static final String DB_NAME = "tech_support";
     public static final String CONNECTION_STRING =
@@ -138,6 +138,8 @@ public class Datasource {
                     COLUMN_CUSTOMER_TAX_ADMINISTRATION + ", " + COLUMN_CUSTOMER_TAX_NUMBER + ", " +
                     COLUMN_CUSTOMER_E_MAIL + ", " + COLUMN_CUSTOMER_PHONE + ", " + COLUMN_CUSTOMER_CITY + ", " +
                     COLUMN_CUSTOMER_DISTRICT + ", " + COLUMN_CUSTOMER_ADDRESS + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String REGISTER_TECHNICIAN =
+            "INSERT INTO " + TABLE_TECHNICIANS + "(" + COLUMN_TECHNICIAN_NAME + ") VALUES (?)";
 
     // SELECT Queries
     public static final String GET_PRODUCT_MANUFACTURER_NAMES =
@@ -468,6 +470,20 @@ public class Datasource {
             System.out.println("Can't get technicians: " + e.getMessage());
             return null;
         }
+    }
+
+    public boolean registerTechnician(String name) {
+
+        try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_TECHNICIAN)){
+            preparedStatement.setString(1, name);
+            System.out.println("SQL statement: " + preparedStatement);
+            preparedStatement.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Can't add technician: " + e.getMessage());
+            return false;
+        }
+
     }
 
     public List<Report> getReport() {

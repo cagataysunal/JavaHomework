@@ -49,18 +49,26 @@ public class AddCustomerController {
         if (validateField(district)) return;
         if (validateField(address)) return;
 
-        customer.setTitle(companyTitle.getText().toLowerCase());
-        customer.setTaxAdministration(taxAdmin.getText().toLowerCase());
-        customer.setTaxNumber(taxNum.getText().toLowerCase());
-        customer.setEmail(email.getText().toLowerCase());
-        customer.setPhone(phone.getText().toLowerCase());
-        customer.setCity(city.getText().toLowerCase());
-        customer.setDistrict(district.getText().toLowerCase());
-        customer.setAddress(address.getText().toLowerCase());
+        customer.setTitle(companyTitle.getText().trim().toLowerCase());
+        customer.setTaxAdministration(taxAdmin.getText().trim().toLowerCase());
+        customer.setTaxNumber(taxNum.getText().trim().toLowerCase());
+        customer.setEmail(email.getText().trim().toLowerCase());
+        customer.setPhone(phone.getText().trim().toLowerCase());
+        customer.setCity(city.getText().trim().toLowerCase());
+        customer.setDistrict(district.getText().trim().toLowerCase());
+        customer.setAddress(address.getText().trim().toLowerCase());
 
 
         if (Datasource.getInstance().registerCustomer(customer)) {
             validatorMessage.setText("Customer added!");
+            companyTitle.clear();
+            taxAdmin.clear();
+            taxNum.clear();
+            email.clear();
+            phone.clear();
+            city.clear();
+            district.clear();
+            address.clear();
         } else {
             validatorMessage.setText("SQL Error.");
         }

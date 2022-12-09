@@ -61,4 +61,12 @@ public class MenuController {
         stage.setScene(new Scene(root, 1280, 720));
         stage.show();
     }
+
+    public void switchToTechnicianOptions(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("add_technician.fxml")));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("View Report");
+        stage.setScene(new Scene(root, 1280, 720));
+        stage.show();
+    }
 }

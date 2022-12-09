@@ -21,6 +21,8 @@
     <center>
         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
               prefHeight="400.0" prefWidth="600.0" spacing="35.0">
+            <Button alignment="CENTER" onAction="#switchToTechnicianOptions" text="Add Technician"
+                    textAlignment="CENTER"/>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToCustomerOptions"
                     text="Add Customer" textAlignment="CENTER"/>
             <Button alignment="CENTER" mnemonicParsing="false" onAction="#switchToProductOptions"

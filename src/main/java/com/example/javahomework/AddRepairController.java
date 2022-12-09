@@ -43,17 +43,11 @@ public class AddRepairController {
 
     String selectedCategory;
     String selectedManufacturer;
-    ObservableList<String> categoryList =
-            FXCollections.observableArrayList(Datasource.getInstance().getProductCategoryNames());
-    ObservableList<String> manufacturerList =
-            FXCollections.observableArrayList(Datasource.getInstance().getProductManufacturerNames());
+    ObservableList<String> categoryList = FXCollections.observableArrayList(Datasource.getInstance().getProductCategoryNames());
+    ObservableList<String> manufacturerList = FXCollections.observableArrayList(Datasource.getInstance().getProductManufacturerNames());
     ObservableList<String> modelList;
-    ObservableList<String> clientList =
-            FXCollections.observableArrayList(customers
-                    .stream().map(Customer::getTitle).collect(Collectors.toList()));
-    ObservableList<String> technicianList =
-            FXCollections.observableArrayList(technicians
-                    .stream().map(Technician::getName).collect(Collectors.toList()));
+    ObservableList<String> clientList = FXCollections.observableArrayList(customers.stream().map(Customer::getTitle).collect(Collectors.toList()));
+    ObservableList<String> technicianList = FXCollections.observableArrayList(technicians.stream().map(Technician::getName).collect(Collectors.toList()));
 
 
     public void initialize() {
@@ -67,23 +61,24 @@ public class AddRepairController {
         if (!(manufacturerBox.getSelectionModel().isEmpty() || categoryBox.getSelectionModel().isEmpty())) {
             selectedCategory = categoryBox.getSelectionModel().getSelectedItem();
             selectedManufacturer = manufacturerBox.getSelectionModel().getSelectedItem();
-            modelList =
-                    FXCollections.observableArrayList(Datasource.getInstance()
-                            .getProductModels(selectedManufacturer, selectedCategory));
+            modelList = FXCollections.observableArrayList(Datasource.getInstance().getProductModels(selectedManufacturer, selectedCategory));
             modelBox.getItems().setAll(modelList);
         }
     }
 
     public void onRegisterButtonPress() {
 
-        if (validateField(faultDescription)) {
-            return;
-        }
+        if (validateField(faultDescription)) return;
+        if (validateField(categoryBox)) return;
+        if (validateField(manufacturerBox)) return;
+        if (validateField(modelBox)) return;
+        if (validateField(clientBox)) return;
+        if (validateField(technicianBox)) return;
         Customer customer = Datasource.getInstance().getCustomerByName(clientBox.getValue());
         int customerId = customer.get_id();
         Product product = Datasource.getInstance().getProductByName(modelBox.getValue());
         int productId = product.get_id();
-        String description = faultDescription.getText();
+        String description = faultDescription.getText().trim();
         Technician technician = Datasource.getInstance().getTechnicianByName(technicianBox.getValue());
         int technicianId = technician.get_id();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -100,6 +95,12 @@ public class AddRepairController {
 
         if (Datasource.getInstance().registerRepair(repair)) {
             validatorMessage.setText("Repair added!");
+            categoryBox.getSelectionModel().clearSelection();
+            modelBox.getSelectionModel().clearSelection();
+            clientBox.getSelectionModel().clearSelection();
+            manufacturerBox.getSelectionModel().clearSelection();
+            technicianBox.getSelectionModel().clearSelection();
+            faultDescription.clear();
         } else {
             validatorMessage.setText("SQL Error.");
         }
@@ -111,8 +112,14 @@ public class AddRepairController {
         if (field.getText().trim().isEmpty()) {
             validatorMessage.setText("Please fill all fields.");
             return true;
-        } else
-            return false;
+        } else return false;
+    }
+
+    public boolean validateField(ComboBox<?> box) {
+        if (box.getSelectionModel().isEmpty()) {
+            validatorMessage.setText("Please fill all fields.");
+            return true;
+        } else return false;
     }
 
 
