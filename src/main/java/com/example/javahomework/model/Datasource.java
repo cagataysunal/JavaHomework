@@ -4,6 +4,7 @@ package com.example.javahomework.model;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Datasource {
     private static final Datasource instance = new Datasource();
@@ -16,10 +17,10 @@ public class Datasource {
         return instance;
     }
 
-    // TODO: Insert own username
+    // Insert own username
     public static final String USER = "root";
-    // TODO: Insert own password
-    public static final String PASSWORD = "131211042311cNA.";
+    // Insert own password
+    public static final String PASSWORD = "-";
 
     public static final String DB_NAME = "tech_support";
     public static final String CONNECTION_STRING =
@@ -45,6 +46,7 @@ public class Datasource {
     public static final String COLUMN_PRODUCT_CATEGORY = "category";
     public static final String COLUMN_PRODUCT_MANUFACTURER = "manufacturer";
     public static final String COLUMN_PRODUCT_MODEL = "model";
+    public static final String COLUMN_PRODUCT_SERIAL_NUMBER = "serial_number";
 
     public static final String TABLE_REPAIRS = "repair";
     public static final String COLUMN_REPAIR_ID = "_id";
@@ -65,14 +67,21 @@ public class Datasource {
     public static final String COLUMN_ACCOUNT_PASSWORD = "password";
 
     public static final String VIEW_REPORT = "report_view";
+    public static final String COLUMN_REPORT_CUSTOMER_TITLE = "customer_title";
+    public static final String COLUMN_REPORT_CATEGORY = "product_category";
+    public static final String COLUMN_REPORT_MANUFACTURER = "product_manufacturer";
+    public static final String COLUMN_REPORT_MODEL = "product_model";
+    public static final String COLUMN_REPORT_SERIAL_NUMBER = "product_serial_number";
 
     // Create Tables
     public static final String CREATE_VIEW_REPORT =
             "CREATE OR REPLACE VIEW " +
-                    VIEW_REPORT + " AS SELECT " + TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_TITLE + " AS customer_title, " +
-                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_CATEGORY + " AS product_category, " +
-                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MANUFACTURER + " AS product_manufacturer, " +
-                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MODEL + " AS product_model, " +
+                    VIEW_REPORT + " AS SELECT " +
+                    TABLE_CUSTOMERS + "." + COLUMN_CUSTOMER_TITLE + " AS " + COLUMN_REPORT_CUSTOMER_TITLE + ", " +
+                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_CATEGORY + " AS " + COLUMN_REPORT_CATEGORY + ", " +
+                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MANUFACTURER + " AS " + COLUMN_REPORT_MANUFACTURER + ", " +
+                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MODEL + " AS " + COLUMN_REPORT_MODEL + ", " +
+                    TABLE_PRODUCTS + "." + COLUMN_PRODUCT_SERIAL_NUMBER + " AS " + COLUMN_REPORT_SERIAL_NUMBER + ", " +
                     TABLE_REPAIRS + "." + COLUMN_REPAIR_DATE + ", " +
                     TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_NAME + " FROM " + TABLE_REPAIRS +
                     " INNER JOIN " + TABLE_CUSTOMERS + " ON " +
@@ -80,7 +89,8 @@ public class Datasource {
                     " INNER JOIN " + TABLE_PRODUCTS + " ON " +
                     TABLE_REPAIRS + "." + COLUMN_REPAIR_PRODUCT + " = " + TABLE_PRODUCTS + "." + COLUMN_PRODUCT_ID +
                     " INNER JOIN " + TABLE_TECHNICIANS + " ON " +
-                    TABLE_REPAIRS + "." + COLUMN_REPAIR_TECHNICIAN + " = " + TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_ID;
+                    TABLE_REPAIRS + "." + COLUMN_REPAIR_TECHNICIAN + " = " + TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_ID
+                    + " WHERE 1=1";
     public static final String CREATE_ACCOUNTS =
             "CREATE TABLE IF NOT EXISTS " + TABLE_ACCOUNTS + " (" +
                     COLUMN_ACCOUNT_ID + " INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
@@ -104,6 +114,7 @@ public class Datasource {
                     COLUMN_PRODUCT_MANUFACTURER + " TEXT, " +
                     COLUMN_PRODUCT_CATEGORY + " TEXT, " +
                     COLUMN_PRODUCT_MODEL + " TEXT, " +
+                    COLUMN_PRODUCT_SERIAL_NUMBER + " TEXT, " +
                     COLUMN_PRODUCT_DESCRIPTION + " TEXT)";
     public static final String CREATE_TECHNICIANS =
             "CREATE TABLE IF NOT EXISTS " + TABLE_TECHNICIANS + " (" +
@@ -127,8 +138,8 @@ public class Datasource {
                     COLUMN_ACCOUNT_EMAIL + ", " + COLUMN_ACCOUNT_PASSWORD + ") VALUES (?, ?, ?)";
     public static final String REGISTER_PRODUCT =
             "INSERT INTO " + TABLE_PRODUCTS + " (" + COLUMN_PRODUCT_MANUFACTURER + ", " +
-                    COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_MODEL + ", " + COLUMN_PRODUCT_DESCRIPTION + ") " +
-                    "VALUES (?, ?, ?, ?)";
+                    COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_MODEL + ", " + COLUMN_PRODUCT_SERIAL_NUMBER + ", " +
+                    COLUMN_PRODUCT_DESCRIPTION + ") VALUES (?, ?, ?, ?, ?)";
     public static final String REGISTER_REPAIR =
             "INSERT INTO " + TABLE_REPAIRS + " (" + COLUMN_REPAIR_CUSTOMER + ", " +
                     COLUMN_REPAIR_PRODUCT + ", " + COLUMN_REPAIR_FAULT_DESCRIPTION + ", " + COLUMN_REPAIR_TECHNICIAN + ", " +
@@ -159,6 +170,11 @@ public class Datasource {
             "SELECT DISTINCT * FROM " + TABLE_TECHNICIANS + " WHERE " + COLUMN_TECHNICIAN_NAME + " = ?";
     public static final String GET_REPORT =
             "SELECT DISTINCT * FROM " + VIEW_REPORT;
+
+    // VIEW Filters
+    public static final String FILTER_REPORT_BY_MODEL = " AND WHERE " + COLUMN_REPORT_MODEL + " = ? ";
+    public static final String FILTER_REPORT_BY_SERIAL_NUMBER = " AND WHERE " + COLUMN_REPORT_SERIAL_NUMBER + " = ? ";
+    public static final String FILTER_REPORT_BY_CUSTOMER = " AND WHERE " + COLUMN_REPORT_CUSTOMER_TITLE + " = ? ";
 
     public boolean open() {
 
@@ -233,7 +249,8 @@ public class Datasource {
             preparedStatement.setString(1, product.getCategory());
             preparedStatement.setString(2, product.getManufacturer());
             preparedStatement.setString(3, product.getModel());
-            preparedStatement.setString(4, product.getDescription());
+            preparedStatement.setString(4, product.getSerialNumber());
+            preparedStatement.setString(5, product.getDescription());
             System.out.println("SQL statement: " + preparedStatement);
             preparedStatement.execute();
             return true;
@@ -340,7 +357,8 @@ public class Datasource {
                 product.setManufacturer(resultSet.getString(2));
                 product.setCategory(resultSet.getString(3));
                 product.setModel(resultSet.getString(4));
-                product.setDescription(resultSet.getString(5));
+                product.setSerialNumber(resultSet.getString(5));
+                product.setDescription(resultSet.getString(6));
                 return product;
             } else {
                 System.out.println("resultSet is empty.");
@@ -474,7 +492,7 @@ public class Datasource {
 
     public boolean registerTechnician(String name) {
 
-        try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_TECHNICIAN)){
+        try (PreparedStatement preparedStatement = con.prepareStatement(REGISTER_TECHNICIAN)) {
             preparedStatement.setString(1, name);
             System.out.println("SQL statement: " + preparedStatement);
             preparedStatement.execute();
@@ -486,11 +504,35 @@ public class Datasource {
 
     }
 
-    public List<Report> getReport() {
+    public List<Report> getReport(String customerName, String model, String serialNumber) {
         List<Report> reports = new ArrayList<>();
-
-        try (Statement statement = con.createStatement();
-             ResultSet resultSet = statement.executeQuery(GET_REPORT)) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(GET_REPORT);
+        AtomicInteger index = new AtomicInteger();
+        if (!customerName.isEmpty()) {
+            sql.append(FILTER_REPORT_BY_CUSTOMER);
+            index.getAndIncrement();
+        }
+        if (!model.isEmpty()) {
+            sql.append(FILTER_REPORT_BY_MODEL);
+            index.getAndIncrement();
+        }
+        if (!serialNumber.isEmpty()) {
+            sql.append(FILTER_REPORT_BY_SERIAL_NUMBER);
+            index.getAndIncrement();
+        }
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql.toString())) {
+            if (!serialNumber.isEmpty()) {
+                preparedStatement.setString(index.getAndDecrement(), serialNumber);
+            }
+            if (!model.isEmpty()) {
+                preparedStatement.setString(index.getAndDecrement(), model);
+            }
+            if (!customerName.isEmpty()) {
+                preparedStatement.setString(index.getAndDecrement(), customerName);
+            }
+            System.out.println("SQL Statement: " + preparedStatement);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Report report = new Report();
                 report.setCustomerTitle(resultSet.getString(1));

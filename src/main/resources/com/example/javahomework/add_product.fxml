@@ -32,12 +32,14 @@
         <Label text="Category" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
         <Label text="Manufacturer" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
         <Label text="Model" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <Label text="Serial Number" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
         <TextField fx:id="description" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
         <TextField fx:id="manufacturer" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
         <TextField fx:id="category" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
         <TextField fx:id="model" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+        <TextField fx:id="serialNumber" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
         <Button mnemonicParsing="false" onAction="#onRegisterButtonPress" text="Register" GridPane.columnIndex="3"
-                GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
             <font>
                 <Font name="Calibri Bold" size="20.0"/>
             </font>

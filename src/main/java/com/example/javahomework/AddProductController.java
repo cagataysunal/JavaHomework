@@ -24,6 +24,8 @@ public class AddProductController {
     @FXML
     private TextField model;
     @FXML
+    private TextField serialNumber;
+    @FXML
     private TextField description;
     @FXML
     private Label validatorMessage;
@@ -34,24 +36,18 @@ public class AddProductController {
 
     public void onRegisterButtonPress() {
 
-        if (validateField(description)) {
-            return;
-        }
-        if (validateField(manufacturer)) {
-            return;
-        }
-        if (validateField(category)) {
-            return;
-        }
-        if (validateField(model)) {
-            return;
-        }
+        if (validateField(description)) return;
+        if (validateField(manufacturer)) return;
+        if (validateField(category)) return;
+        if (validateField(model)) return;
+        if (validateField(serialNumber)) return;
 
 
         product.setManufacturer(manufacturer.getText().trim().toLowerCase());
         product.setCategory(category.getText().trim().toLowerCase());
         product.setModel(model.getText().trim().toLowerCase());
         product.setDescription(description.getText().trim().toLowerCase());
+        product.setSerialNumber(serialNumber.getText().trim().toLowerCase());
 
 
         if (Datasource.getInstance().registerProduct(product)) {
@@ -66,8 +62,7 @@ public class AddProductController {
         if (field.getText().trim().isEmpty()) {
             validatorMessage.setText("Please fill all fields.");
             return true;
-        } else
-            return false;
+        } else return false;
     }
 
     public void clearFields() {
@@ -84,6 +79,4 @@ public class AddProductController {
         stage.setScene(new Scene(root, 1280, 720));
         stage.show();
     }
-
-
 }
