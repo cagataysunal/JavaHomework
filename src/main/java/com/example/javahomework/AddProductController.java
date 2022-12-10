@@ -56,15 +56,10 @@ public class AddProductController {
 
         if (Datasource.getInstance().registerProduct(product)) {
             validatorMessage.setText("Product added!");
-            description.clear();
-            manufacturer.clear();
-            category.clear();
-            model.clear();
+            clearFields();
         } else {
             validatorMessage.setText("SQL Error!");
         }
-
-
     }
 
     public boolean validateField(TextField field) {
@@ -73,6 +68,13 @@ public class AddProductController {
             return true;
         } else
             return false;
+    }
+
+    public void clearFields() {
+        description.clear();
+        manufacturer.clear();
+        category.clear();
+        model.clear();
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {

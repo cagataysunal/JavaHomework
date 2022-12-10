@@ -61,14 +61,7 @@ public class AddCustomerController {
 
         if (Datasource.getInstance().registerCustomer(customer)) {
             validatorMessage.setText("Customer added!");
-            companyTitle.clear();
-            taxAdmin.clear();
-            taxNum.clear();
-            email.clear();
-            phone.clear();
-            city.clear();
-            district.clear();
-            address.clear();
+            clearFields();
         } else {
             validatorMessage.setText("SQL Error.");
         }
@@ -82,6 +75,17 @@ public class AddCustomerController {
             return true;
         } else
             return false;
+    }
+
+    public void clearFields() {
+        companyTitle.clear();
+        taxAdmin.clear();
+        taxNum.clear();
+        email.clear();
+        phone.clear();
+        city.clear();
+        district.clear();
+        address.clear();
     }
 
 

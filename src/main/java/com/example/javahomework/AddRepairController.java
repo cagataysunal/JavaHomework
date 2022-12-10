@@ -95,12 +95,7 @@ public class AddRepairController {
 
         if (Datasource.getInstance().registerRepair(repair)) {
             validatorMessage.setText("Repair added!");
-            categoryBox.getSelectionModel().clearSelection();
-            modelBox.getSelectionModel().clearSelection();
-            clientBox.getSelectionModel().clearSelection();
-            manufacturerBox.getSelectionModel().clearSelection();
-            technicianBox.getSelectionModel().clearSelection();
-            faultDescription.clear();
+            clearFields();
         } else {
             validatorMessage.setText("SQL Error.");
         }
@@ -122,6 +117,14 @@ public class AddRepairController {
         } else return false;
     }
 
+    public void clearFields() {
+        categoryBox.getSelectionModel().clearSelection();
+        modelBox.getSelectionModel().clearSelection();
+        clientBox.getSelectionModel().clearSelection();
+        manufacturerBox.getSelectionModel().clearSelection();
+        technicianBox.getSelectionModel().clearSelection();
+        faultDescription.clear();
+    }
 
     public void switchToMenu(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu.fxml")));

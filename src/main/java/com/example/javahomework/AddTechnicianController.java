@@ -25,7 +25,7 @@ public class AddTechnicianController {
 
         if (Datasource.getInstance().registerTechnician(name.getText().trim())) {
             validatorMessage.setText("Technician Added!");
-            name.clear();
+            clearFields();
         } else {
             validatorMessage.setText("SQL Error!");
         }
@@ -37,6 +37,10 @@ public class AddTechnicianController {
             return true;
         } else
             return false;
+    }
+
+    public void clearFields() {
+        name.clear();
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {
