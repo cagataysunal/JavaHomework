@@ -91,8 +91,7 @@ public class Datasource {
                     " INNER JOIN " + TABLE_PRODUCTS + " ON " +
                     TABLE_REPAIRS + "." + COLUMN_REPAIR_PRODUCT + " = " + TABLE_PRODUCTS + "." + COLUMN_PRODUCT_ID +
                     " INNER JOIN " + TABLE_TECHNICIANS + " ON " +
-                    TABLE_REPAIRS + "." + COLUMN_REPAIR_TECHNICIAN + " = " + TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_ID
-                    + " WHERE 1=1";
+                    TABLE_REPAIRS + "." + COLUMN_REPAIR_TECHNICIAN + " = " + TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_ID;
     public static final String CREATE_ACCOUNTS =
             "CREATE TABLE IF NOT EXISTS " + TABLE_ACCOUNTS + " (" +
                     COLUMN_ACCOUNT_ID + " INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, " +
@@ -169,17 +168,16 @@ public class Datasource {
     public static final String GET_TECHNICIAN_BY_NAME =
             "SELECT DISTINCT * FROM " + TABLE_TECHNICIANS + " WHERE " + COLUMN_TECHNICIAN_NAME + " = ?";
     public static final String GET_REPORT =
-            "SELECT DISTINCT * FROM " + VIEW_REPORT;
+            "SELECT DISTINCT * FROM " + VIEW_REPORT + " WHERE 1=1";
     public static final String CHECK_SERIAL_NUMBER = "SELECT DISTINCT * FROM " + TABLE_PRODUCTS +
             " WHERE " + COLUMN_PRODUCT_SERIAL_NUMBER + " = ?";
 
     // VIEW Filters
-    public static final String FILTER_REPORT_BY_MODEL = " AND WHERE " + COLUMN_REPORT_MODEL + " = ? ";
-    public static final String FILTER_REPORT_BY_CUSTOMER = " AND WHERE " + COLUMN_REPORT_CUSTOMER_TITLE + " = ? ";
-    public static final String FILTER_REPORT_BY_SERIAL_NUMBER = " AND WHERE" + COLUMN_REPORT_SERIAL_NUMBER + " LIKE %?%";
+    public static final String FILTER_REPORT_BY_MODEL = COLUMN_REPORT_MODEL + " = ?";
+    public static final String FILTER_REPORT_BY_CUSTOMER = COLUMN_REPORT_CUSTOMER_TITLE + " = ?";
+    public static final String FILTER_REPORT_BY_SERIAL_NUMBER = COLUMN_REPORT_SERIAL_NUMBER + " LIKE ?";
 
     public boolean open() {
-
         try {
             con = DriverManager.getConnection(CONNECTION_STRING, USER, PASSWORD);
             createTablesIfNotExists();
@@ -507,20 +505,20 @@ public class Datasource {
         sql.append(GET_REPORT);
         AtomicInteger index = new AtomicInteger();
         if (!customerName.isEmpty()) {
-            sql.append(FILTER_REPORT_BY_CUSTOMER);
+            sql.append(" AND "+FILTER_REPORT_BY_CUSTOMER);
             index.getAndIncrement();
         }
         if (!model.isEmpty()) {
-            sql.append(FILTER_REPORT_BY_MODEL);
+            sql.append(" AND "+FILTER_REPORT_BY_MODEL);
             index.getAndIncrement();
         }
         if (!serialNumber.isEmpty()) {
-            sql.append(FILTER_REPORT_BY_SERIAL_NUMBER);
+            sql.append(" AND "+FILTER_REPORT_BY_SERIAL_NUMBER);
             index.getAndIncrement();
         }
         try (PreparedStatement preparedStatement = con.prepareStatement(sql.toString())) {
             if (!serialNumber.isEmpty()) {
-                preparedStatement.setString(index.getAndDecrement(), serialNumber);
+                preparedStatement.setString(index.getAndDecrement(), "%"+serialNumber+"%");
             }
             if (!model.isEmpty()) {
                 preparedStatement.setString(index.getAndDecrement(), model);

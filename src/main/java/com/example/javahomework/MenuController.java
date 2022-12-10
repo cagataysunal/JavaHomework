@@ -55,7 +55,7 @@ public class MenuController {
     }
 
     public void switchToReport(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("report.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("report_input.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("View Report");
         stage.setScene(new Scene(root, 1280, 720));

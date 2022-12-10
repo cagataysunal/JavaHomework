@@ -37,13 +37,17 @@ public class ReportController {
     private TableColumn<Report, String> dateCol;
     @FXML
     private TableColumn<Report, String> technicianCol;
+    FilterHolder filterHolder = FilterHolder.getInstance();
 
-    // TODO: Add dialogue window for filter entry
+    ObservableList<Report> reports;
 
-    ObservableList<Report> reports = FXCollections.observableArrayList(Datasource.getInstance().getReport("", "", ""));
+    private String serialNumber;
+    private String model;
+    private String customerName;
 
     public void initialize() {
-        // TODO: Popup dialogue window on start
+        getFilteredData();
+        reports = FXCollections.observableArrayList(Datasource.getInstance().getReport(customerName, model, serialNumber));
         loadData();
         reportTableView.setItems(reports);
     }
@@ -57,6 +61,12 @@ public class ReportController {
         faultCol.setCellValueFactory(new PropertyValueFactory<>("faultDescription"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("repairDate"));
         technicianCol.setCellValueFactory(new PropertyValueFactory<>("technicianName"));
+    }
+
+    private void getFilteredData() {
+        customerName = filterHolder.getCustomerName();
+        model = filterHolder.getModel();
+        serialNumber = filterHolder.getSerialNumber();
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {

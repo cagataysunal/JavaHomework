@@ -70,6 +70,7 @@ public class AddRepairController {
             modelList =
                     FXCollections.observableArrayList(Datasource.getInstance().getProductModels(selectedManufacturer, selectedCategory));
             modelBox.getItems().setAll(modelList);
+            modelBox.setDisable(false);
         }
     }
 

@@ -33,7 +33,8 @@
                 <Font name="System Bold" size="29.0"/>
             </font>
         </Label>
-        <Button mnemonicParsing="false" onAction="#onRegisterButtonPress" text="Register" GridPane.columnIndex="3"
+        <Button mnemonicParsing="false" defaultButton="true" onAction="#onRegisterButtonPress" text="Register"
+                GridPane.columnIndex="3"
                 GridPane.halignment="CENTER" GridPane.rowIndex="2">
             <font>
                 <Font name="System Bold" size="20.0"/>

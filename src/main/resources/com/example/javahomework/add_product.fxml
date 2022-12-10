@@ -38,7 +38,7 @@
         <TextField fx:id="category" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
         <TextField fx:id="model" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
         <TextField fx:id="serialNumber" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
-        <Button mnemonicParsing="false" onAction="#onRegisterButtonPress" text="Register" GridPane.columnIndex="3"
+        <Button mnemonicParsing="false" defaultButton="true" onAction="#onRegisterButtonPress" text="Register" GridPane.columnIndex="3"
                 GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
             <font>
                 <Font name="Calibri Bold" size="20.0"/>

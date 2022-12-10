@@ -49,7 +49,7 @@
                   GridPane.columnIndex="2" GridPane.rowIndex="1"/>
         <ComboBox fx:id="manufacturerBox" onAction="#onBoxSelect" prefWidth="200.0" promptText="Select"
                   GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-        <ComboBox fx:id="modelBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
+        <ComboBox fx:id="modelBox" disable="true" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
                   GridPane.rowIndex="3"/>
         <ComboBox fx:id="clientBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
                   GridPane.rowIndex="4"/>
@@ -57,7 +57,7 @@
         <TextField fx:id="faultDescription" GridPane.columnIndex="2" GridPane.rowIndex="6"/>
         <ComboBox fx:id="technicianBox" prefWidth="200.0" promptText="Select" GridPane.columnIndex="2"
                   GridPane.rowIndex="7"/>
-        <Button mnemonicParsing="false" onAction="#onRegisterButtonPress" text="Register" GridPane.columnIndex="3"
+        <Button mnemonicParsing="false" defaultButton="true" onAction="#onRegisterButtonPress" text="Register" GridPane.columnIndex="3"
                 GridPane.halignment="CENTER" GridPane.rowIndex="7">
             <font>
                 <Font name="System Bold" size="20.0"/>
