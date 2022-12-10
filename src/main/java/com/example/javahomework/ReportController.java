@@ -24,30 +24,39 @@ public class ReportController {
     @FXML
     private TableColumn<Report, String> titleCol;
     @FXML
-    private TableColumn<Report, String> catCol;
+    private TableColumn<Report, String> categoryCol;
     @FXML
-    private TableColumn<Report, String> manCol;
+    private TableColumn<Report, String> manufacturerCol;
     @FXML
-    private TableColumn<Report, String> modCol;
+    private TableColumn<Report, String> modelCol;
+    @FXML
+    private TableColumn<Report, String> serialCol;
+    @FXML
+    private TableColumn<Report, String> faultCol;
     @FXML
     private TableColumn<Report, String> dateCol;
     @FXML
-    private TableColumn<Report, String> techCol;
+    private TableColumn<Report, String> technicianCol;
 
-    ObservableList<Report> reports = FXCollections.observableArrayList(Datasource.getInstance().getReport());
+    // TODO: Add dialogue window for filter entry
+
+    ObservableList<Report> reports = FXCollections.observableArrayList(Datasource.getInstance().getReport("", "", ""));
 
     public void initialize() {
+        // TODO: Popup dialogue window on start
         loadData();
         reportTableView.setItems(reports);
     }
 
     public void loadData() {
         titleCol.setCellValueFactory(new PropertyValueFactory<>("customerTitle"));
-        catCol.setCellValueFactory(new PropertyValueFactory<>("productCategory"));
-        manCol.setCellValueFactory(new PropertyValueFactory<>("productManufacturer"));
-        modCol.setCellValueFactory(new PropertyValueFactory<>("productModel"));
+        categoryCol.setCellValueFactory(new PropertyValueFactory<>("productCategory"));
+        manufacturerCol.setCellValueFactory(new PropertyValueFactory<>("productManufacturer"));
+        modelCol.setCellValueFactory(new PropertyValueFactory<>("productModel"));
+        serialCol.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+        faultCol.setCellValueFactory(new PropertyValueFactory<>("faultDescription"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("repairDate"));
-        techCol.setCellValueFactory(new PropertyValueFactory<>("technicianName"));
+        technicianCol.setCellValueFactory(new PropertyValueFactory<>("technicianName"));
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {

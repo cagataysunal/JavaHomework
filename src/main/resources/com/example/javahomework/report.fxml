@@ -10,32 +10,42 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="CENTER" hgap="10.0" prefHeight="600.0" prefWidth="1000.0" vgap="10.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javahomework.ReportController">
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="600.0" prefWidth="1200.0" vgap="10.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javahomework.ReportController">
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
     <Label style="-fx-font: NORMAL 20 Tahoma;" text="Repair Report" GridPane.columnIndex="0" GridPane.rowIndex="1">
     </Label>
-    <TableView fx:id="reportTableView" prefHeight="495.0" prefWidth="844.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+    <TableView fx:id="reportTableView" prefHeight="495.0" prefWidth="1200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
         <columns>
             <TableColumn fx:id="titleCol" text="Customer Title">
                 <cellValueFactory>
                     <PropertyValueFactory property="customerTitle" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn fx:id="catCol" text="Product Category">
+            <TableColumn fx:id="categoryCol" text="Product Category">
                 <cellValueFactory>
                     <PropertyValueFactory property="productCategory" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn fx:id="manCol" text="Product Manufacturer">
+            <TableColumn fx:id="manufacturerCol" text="Product Manufacturer">
                 <cellValueFactory>
                     <PropertyValueFactory property="productManufacturer" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn fx:id="modCol" text="Product Model">
+            <TableColumn fx:id="modelCol" text="Product Model">
                 <cellValueFactory>
                     <PropertyValueFactory property="productModel" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="serialCol" text="Serial Number">
+                <cellValueFactory>
+                    <PropertyValueFactory property="serialNumber" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="faultCol" text="Fault Description">
+                <cellValueFactory>
+                    <PropertyValueFactory property="faultDescription" />
                 </cellValueFactory>
             </TableColumn>
             <TableColumn fx:id="dateCol" text="Repair Date">
@@ -43,7 +53,7 @@
                     <PropertyValueFactory property="repairDate" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn fx:id="techCol" text="Technician Name">
+            <TableColumn fx:id="technicianCol" text="Technician Name">
                 <cellValueFactory>
                     <PropertyValueFactory property="technicianName" />
                 </cellValueFactory>
@@ -53,12 +63,12 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
     </TableView>
-   <Button onAction="#switchToMenu" mnemonicParsing="false" text="&lt;" />
+    <Button mnemonicParsing="false" onAction="#switchToMenu" text="&lt;" />
     <columnConstraints>
         <ColumnConstraints />
     </columnConstraints>
     <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
         <RowConstraints />
         <RowConstraints />
     </rowConstraints>

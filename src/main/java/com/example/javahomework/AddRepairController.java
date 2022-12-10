@@ -30,6 +30,8 @@ public class AddRepairController {
     @FXML
     private ComboBox<String> modelBox;
     @FXML
+    private TextField serialNumber;
+    @FXML
     private ComboBox<String> clientBox;
     @FXML
     private TextField faultDescription;
@@ -43,11 +45,15 @@ public class AddRepairController {
 
     String selectedCategory;
     String selectedManufacturer;
-    ObservableList<String> categoryList = FXCollections.observableArrayList(Datasource.getInstance().getProductCategoryNames());
-    ObservableList<String> manufacturerList = FXCollections.observableArrayList(Datasource.getInstance().getProductManufacturerNames());
+    ObservableList<String> categoryList =
+            FXCollections.observableArrayList(Datasource.getInstance().getProductCategoryNames());
+    ObservableList<String> manufacturerList =
+            FXCollections.observableArrayList(Datasource.getInstance().getProductManufacturerNames());
     ObservableList<String> modelList;
-    ObservableList<String> clientList = FXCollections.observableArrayList(customers.stream().map(Customer::getTitle).collect(Collectors.toList()));
-    ObservableList<String> technicianList = FXCollections.observableArrayList(technicians.stream().map(Technician::getName).collect(Collectors.toList()));
+    ObservableList<String> clientList =
+            FXCollections.observableArrayList(customers.stream().map(Customer::getTitle).collect(Collectors.toList()));
+    ObservableList<String> technicianList =
+            FXCollections.observableArrayList(technicians.stream().map(Technician::getName).collect(Collectors.toList()));
 
 
     public void initialize() {
@@ -61,7 +67,8 @@ public class AddRepairController {
         if (!(manufacturerBox.getSelectionModel().isEmpty() || categoryBox.getSelectionModel().isEmpty())) {
             selectedCategory = categoryBox.getSelectionModel().getSelectedItem();
             selectedManufacturer = manufacturerBox.getSelectionModel().getSelectedItem();
-            modelList = FXCollections.observableArrayList(Datasource.getInstance().getProductModels(selectedManufacturer, selectedCategory));
+            modelList =
+                    FXCollections.observableArrayList(Datasource.getInstance().getProductModels(selectedManufacturer, selectedCategory));
             modelBox.getItems().setAll(modelList);
         }
     }
@@ -74,13 +81,20 @@ public class AddRepairController {
         if (validateField(modelBox)) return;
         if (validateField(clientBox)) return;
         if (validateField(technicianBox)) return;
+        if (validateField(serialNumber)) return;
+        if (!Datasource.getInstance().checkSerialNumber(serialNumber.getText())) {
+            validatorMessage.setText("Serial number error!");
+            System.out.println("Serial number error!");
+            return;
+        }
         Customer customer = Datasource.getInstance().getCustomerByName(clientBox.getValue());
         int customerId = customer.get_id();
-        Product product = Datasource.getInstance().getProductByName(modelBox.getValue());
+        Product product = Datasource.getInstance().getProductBySerialNumber(serialNumber.getText());
         int productId = product.get_id();
         String description = faultDescription.getText().trim();
         Technician technician = Datasource.getInstance().getTechnicianByName(technicianBox.getValue());
         int technicianId = technician.get_id();
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime localDateTime = LocalDateTime.now();
         String date = dtf.format(localDateTime);
@@ -124,6 +138,7 @@ public class AddRepairController {
         manufacturerBox.getSelectionModel().clearSelection();
         technicianBox.getSelectionModel().clearSelection();
         faultDescription.clear();
+        serialNumber.clear();
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {

@@ -20,7 +20,7 @@ public class Datasource {
     // Insert own username
     public static final String USER = "root";
     // Insert own password
-    public static final String PASSWORD = "-";
+    public static final String PASSWORD = "password1";
 
     public static final String DB_NAME = "tech_support";
     public static final String CONNECTION_STRING =
@@ -71,6 +71,7 @@ public class Datasource {
     public static final String COLUMN_REPORT_CATEGORY = "product_category";
     public static final String COLUMN_REPORT_MANUFACTURER = "product_manufacturer";
     public static final String COLUMN_REPORT_MODEL = "product_model";
+    public static final String COLUMN_REPORT_FAULT_DESCRIPTION = "fault_description";
     public static final String COLUMN_REPORT_SERIAL_NUMBER = "product_serial_number";
 
     // Create Tables
@@ -82,6 +83,7 @@ public class Datasource {
                     TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MANUFACTURER + " AS " + COLUMN_REPORT_MANUFACTURER + ", " +
                     TABLE_PRODUCTS + "." + COLUMN_PRODUCT_MODEL + " AS " + COLUMN_REPORT_MODEL + ", " +
                     TABLE_PRODUCTS + "." + COLUMN_PRODUCT_SERIAL_NUMBER + " AS " + COLUMN_REPORT_SERIAL_NUMBER + ", " +
+                    TABLE_REPAIRS + "." + COLUMN_REPAIR_FAULT_DESCRIPTION + " AS " + COLUMN_REPORT_FAULT_DESCRIPTION + ", " +
                     TABLE_REPAIRS + "." + COLUMN_REPAIR_DATE + ", " +
                     TABLE_TECHNICIANS + "." + COLUMN_TECHNICIAN_NAME + " FROM " + TABLE_REPAIRS +
                     " INNER JOIN " + TABLE_CUSTOMERS + " ON " +
@@ -163,18 +165,18 @@ public class Datasource {
     public static final String GET_CUSTOMERS = "SELECT * FROM " + TABLE_CUSTOMERS;
     public static final String GET_CUSTOMER_BY_NAME =
             "SELECT DISTINCT * FROM " + TABLE_CUSTOMERS + " WHERE " + COLUMN_CUSTOMER_TITLE + " = ?";
-    public static final String GET_PRODUCT_BY_NAME =
-            "SELECT DISTINCT * FROM " + TABLE_PRODUCTS + " WHERE " + COLUMN_PRODUCT_MODEL + " = ?";
     public static final String GET_TECHNICIANS = "SELECT * FROM " + TABLE_TECHNICIANS;
     public static final String GET_TECHNICIAN_BY_NAME =
             "SELECT DISTINCT * FROM " + TABLE_TECHNICIANS + " WHERE " + COLUMN_TECHNICIAN_NAME + " = ?";
     public static final String GET_REPORT =
             "SELECT DISTINCT * FROM " + VIEW_REPORT;
+    public static final String CHECK_SERIAL_NUMBER = "SELECT DISTINCT * FROM " + TABLE_PRODUCTS +
+            " WHERE " + COLUMN_PRODUCT_SERIAL_NUMBER + " = ?";
 
     // VIEW Filters
     public static final String FILTER_REPORT_BY_MODEL = " AND WHERE " + COLUMN_REPORT_MODEL + " = ? ";
-    public static final String FILTER_REPORT_BY_SERIAL_NUMBER = " AND WHERE " + COLUMN_REPORT_SERIAL_NUMBER + " = ? ";
     public static final String FILTER_REPORT_BY_CUSTOMER = " AND WHERE " + COLUMN_REPORT_CUSTOMER_TITLE + " = ? ";
+    public static final String FILTER_REPORT_BY_SERIAL_NUMBER = " AND WHERE" + COLUMN_REPORT_SERIAL_NUMBER + " LIKE %?%";
 
     public boolean open() {
 
@@ -340,17 +342,12 @@ public class Datasource {
         }
     }
 
-    public Product getProductByName(String name) {
+    public Product getProductBySerialNumber(String serialNumber) {
         Product product = new Product();
-//        CREATE TABLE IF NOT EXISTS product (
-//                _id INTEGER PRIMARY KEY,
-//                manufacturer TEXT,
-//                category TEXT,
-//                model TEXT,
-//                description TEXT)
 
-        try (PreparedStatement preparedStatement = con.prepareStatement(GET_PRODUCT_BY_NAME)) {
-            preparedStatement.setString(1, name);
+
+        try (PreparedStatement preparedStatement = con.prepareStatement(CHECK_SERIAL_NUMBER)) {
+            preparedStatement.setString(1, serialNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 product.set_id(resultSet.getInt(1));
@@ -539,14 +536,28 @@ public class Datasource {
                 report.setProductCategory(resultSet.getString(2));
                 report.setProductManufacturer(resultSet.getString(3));
                 report.setProductModel(resultSet.getString(4));
-                report.setRepairDate(resultSet.getString(5));
-                report.setTechnicianName(resultSet.getString(6));
+                report.setSerialNumber(resultSet.getString(5));
+                report.setFaultDescription(resultSet.getString(6));
+                report.setRepairDate(resultSet.getString(7));
+                report.setTechnicianName(resultSet.getString(8));
                 reports.add(report);
             }
             return reports;
         } catch (SQLException e) {
             System.out.println("Can't get report: " + e.getMessage());
             return null;
+        }
+    }
+
+    public boolean checkSerialNumber(String serialNumber) {
+        try (PreparedStatement preparedStatement = con.prepareStatement(CHECK_SERIAL_NUMBER)) {
+            preparedStatement.setString(1, serialNumber);
+            System.out.println("SQL statement: " + preparedStatement);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } catch (SQLException e) {
+            System.out.println("Can't get report " + e.getMessage());
+            return false;
         }
     }
 }

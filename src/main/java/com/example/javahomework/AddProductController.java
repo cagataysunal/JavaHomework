@@ -70,6 +70,7 @@ public class AddProductController {
         manufacturer.clear();
         category.clear();
         model.clear();
+        serialNumber.clear();
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {

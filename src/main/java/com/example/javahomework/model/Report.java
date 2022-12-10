@@ -6,8 +6,18 @@ public class Report {
     private String productCategory;
     private String productManufacturer;
     private String productModel;
+    private String serialNumber;
+    private String faultDescription;
     private String repairDate;
     private String technicianName;
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
 
     public String getCustomerTitle() {
         return customerTitle;
@@ -55,5 +65,13 @@ public class Report {
 
     public void setTechnicianName(String technicianName) {
         this.technicianName = technicianName;
+    }
+
+    public String getFaultDescription() {
+        return faultDescription;
+    }
+
+    public void setFaultDescription(String faultDescription) {
+        this.faultDescription = faultDescription;
     }
 }
