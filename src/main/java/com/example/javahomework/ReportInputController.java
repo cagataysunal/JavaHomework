@@ -61,7 +61,7 @@ public class ReportInputController {
     }
 
     public void onViewReportButtonPress(ActionEvent event) throws IOException {
-        filterData();
+        filterData(customerBox.getValue(), modelBox.getValue(), serialNumber.getText().trim());
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("report.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root, 1280, 720));
@@ -69,10 +69,10 @@ public class ReportInputController {
         stage.show();
     }
 
-    private void filterData() {
-        filterHolder.setCustomerName(customerBox.getValue());
-        filterHolder.setModel(modelBox.getValue());
-        filterHolder.setSerialNumber(serialNumber.getText());
+    private void filterData(String customer, String model, String serialNumber) {
+        filterHolder.setCustomerName(customer != null ? customer : "");
+        filterHolder.setModel(model != null ? model : "");
+        filterHolder.setSerialNumber(serialNumber);
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {
