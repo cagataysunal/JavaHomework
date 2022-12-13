@@ -7,4 +7,5 @@ module com.example.javahomework {
     opens com.example.javahomework to javafx.fxml;
     exports com.example.javahomework;
     exports com.example.javahomework.model;
+    opens com.example.javahomework.model to javafx.fxml;
 }

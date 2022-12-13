@@ -1,5 +1,6 @@
 package com.example.javahomework;
 
+import com.example.javahomework.model.AlertHelper;
 import com.example.javahomework.model.Datasource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +12,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
@@ -24,6 +24,8 @@ public class LoginFormController {
     private TextField emailField;
     @FXML
     private PasswordField passwordField;
+    private Parent root;
+    private Scene scene;
 
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) throws IOException {
@@ -56,23 +58,15 @@ public class LoginFormController {
 
     @FXML
     protected void onHomeButtonClick(ActionEvent event) throws IOException {
-        Parent root;
-        Stage stage;
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Menu");
-        stage.setScene(new Scene(root, 1280, 720));
-        stage.show();
+        scene = ((Node) event.getSource()).getScene();
+        scene.setRoot(root);
     }
 
     public void switchToMenu(ActionEvent event) throws IOException {
-        Parent root;
-        Stage stage;
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("menu.fxml")));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Menu");
-        stage.setScene(new Scene(root, 1280, 720));
-        stage.show();
+        scene = ((Node) event.getSource()).getScene();
+        scene.setRoot(root);
     }
 
 }

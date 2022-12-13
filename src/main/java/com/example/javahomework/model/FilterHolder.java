@@ -1,4 +1,4 @@
-package com.example.javahomework;
+package com.example.javahomework.model;
 
 public class FilterHolder {
     private static final FilterHolder instance = new FilterHolder();

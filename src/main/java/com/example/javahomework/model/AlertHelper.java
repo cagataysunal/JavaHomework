@@ -1,4 +1,4 @@
-package com.example.javahomework;
+package com.example.javahomework.model;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Window;
